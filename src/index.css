@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Styles for Footer */
+img.footer-social-icon {
+  width: 14px;
+  padding: 5px 0 0 0; /* TODO: Make sure that icons are aligned with txt */
+}
