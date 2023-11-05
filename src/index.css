@@ -1,19 +1,869 @@
+@import url(https://fonts.googleapis.com/css?family=Karla);
+@import url(https://fonts.googleapis.com/css?family=Markazi+Text);
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Karla;
+  font-size: 16pt;
+  font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* My styles start here */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block-end: 0.5em;
 }
 
-/* Styles for Footer */
-img.footer-social-icon {
-  width: 14px;
-  padding: 5px 0 0 0; /* TODO: Make sure that icons are aligned with txt */
+span {
+  font-family: Karla;
+  font-size: 16pt;
+  font-weight: normal;
+}
+
+.title {
+  font-family: "Markazi Text";
+  font-size: 64pt;
+  /* Medium */
+  font-weight: 500;
+  margin-block-end: 0;
+}
+
+.sub-title {
+  font-family: "Markazi Text";
+  font-size: 40pt;
+  font-weight: normal;
+  margin-block-start: 0;
+  /* margin-block-end: 0; */
+  line-height: 80%;
+}
+
+.sub-sub-title {
+  font-family: "Markazi Text";
+  font-size: 24pt;
+  font-weight: normal;
+  margin-block-start: 0;
+  line-height: 80%;
+}
+
+.lead-text {
+  font-family: Karla;
+  font-size: 18pt;
+  /* Medium */
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: Karla;
+  font-size: 20pt;
+  /* Extra Bold */
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.section-category {
+  font-family: Karla;
+  font-size: 16pt;
+  /* Extra Bold */
+  font-weight: 800;
+  color: black;
+}
+
+.card-title {
+  font-family: Karla;
+  font-size: 18pt;
+  font-weight: bold;
+}
+
+p,
+.paragraph {
+  font-family: Karla;
+  font-size: 16pt;
+  font-weight: normal;
+  line-height: 110%;
+  margin-block-end: 0.4em;
+}
+
+.highlight {
+  font-family: Karla;
+  font-size: 16pt;
+  /* Medium */
+  font-weight: 500;
+}
+
+.highlight-bg {
+  font-family: "Markazi Text";
+  font-size: 22pt;
+  /* Medium */
+  font-weight: 500;
+  line-height: 80%;
+}
+
+.primary-yellow {
+  color: #F4CE14;
+}
+
+.bg-primary-yellow {
+  background-color: #F4CE14;
+}
+
+.bg-primary-green {
+  background-color: #495E57;
+}
+
+.highlight-soft-peach {
+  color: #EDEFEE;
+}
+
+.bg-highlight-soft-peach {
+  background-color: #EDEFEE;
+}
+
+.peach-puff {
+  color: #FBDABB;
+}
+
+.bg-peach-puff {
+  background-color: #FBDABB;
+}
+
+.highlight-dune {
+  color: #333333;
+}
+
+.bg-highlight-dune {
+  background-color: #333333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+}
+
+a {
+  /* Remove underlines */
+  text-decoration: none;
+}
+
+/* Styles for social media icons in Footer
+   and for bicycle icon in the Specials */
+img.footer-social-icon,
+img.bicycle-icon {
+  width: 16px;
+  position: relative;
+  top: 2px;
+}
+
+/* Header: navigation links (excluding burger menu)
+   Footer: navigation and social media links */
+header>div>nav>ul,
+footer ul {
+  /* No bullet symbols */
+  list-style-type: none;
+}
+
+/* Align the menu to the right / end */
+header>div>nav {
+  justify-self: end;
+}
+
+header nav li {
+  display: inline-block;
+}
+
+header nav li>a {
+  padding: 0 0 0 20px;
+}
+
+nav a.active {
+  color: #495E57;
+}
+
+header nav a,
+footer a {
+  /* Also applies to burger menu */
+  /* Use header>div>nav>a to exclude burger menu */
+  text-decoration: none;
+  color: black;
+}
+
+footer ul {
+  /* navigation and social media links */
+  padding-left: 0;
+  margin-top: 0;
+}
+
+footer h2 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+/* Call to action buttons and cards */
+.card,
+.button {
+  border-radius: 16px;
+}
+
+.button {
+  padding: 8px 16px;
+  margin-bottom: 12px;
+  font-family: Karla;
+  font-size: 18pt;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+a.button-primary:link,
+a.button-primary:visited {
+  color: black;
+  background-color: #F4CE14;
+  box-shadow: 0 8px #999;
+}
+
+a.button-primary:hover {
+  background-color: #EE9972;
+  box-shadow: 0 8px #666;
+}
+
+a.button-primary:active {
+  background-color: #EE9972;
+  box-shadow: 0 8px #666;
+  transform: translateY(4px);
+}
+
+.dish-card {
+  overflow: hidden;
+  background-color: #FBDABB;
+  padding-bottom: 20px;
+}
+
+/* Page layout */
+/* 0. Very large screen size (at least 880px wide) */
+
+/* The outer most div container */
+#root {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto;
+  row-gap: 0;
+  justify-content: start;
+  align-items: start;
+  background-color: #FFFFFF;
+}
+
+/* General setting for all other grid containers */
+header,
+main,
+footer,
+main>article.hero,
+.dish-cards,
+.grid-stretched-row,
+.dish-card,
+.review-cards,
+.review-card,
+main>article.history {
+  display: grid;
+  grid-auto-rows: auto;
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-content: space-between;
+  align-items: start;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow: hidden;
+}
+
+/* Provide paddings to the left and right of the page */
+header>div,
+main>article.hero>article.cta-reserve,
+main>article.cta-order,
+main>article.testimonials,
+main>article.history,
+footer>div {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+main>article.hero>img {
+  margin: 20px 10px 10px;
+}
+
+/* Center the content on the page */
+header,
+main,
+footer {
+  grid-template-columns: 1fr 880px 1fr;
+  column-gap: 0;
+}
+
+main {
+  row-gap: 0;
+  padding: 0;
+}
+
+main>article.cta-order,
+main>article.testimonials,
+main>article.history,
+footer {
+  margin-top: 50px;
+}
+
+main>article.testimonials>h1 {
+  margin-bottom: 30px;
+}
+
+/* Header */
+header>div {
+  display: grid;
+  grid-template-columns: minmax(25%, auto) 1fr minmax(35px, auto);
+  align-items: center;
+  /* Make second row invisible, also remove row-gap */
+  grid-template-rows: auto 0;
+  row-gap: 0;
+  grid-column: 2/3;
+}
+
+header>div>a {
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+
+header>div>nav {
+  grid-column: 2/4;
+  grid-row: 1/2;
+}
+
+header>div>.overlay {
+  grid-column: 1/3;
+  grid-row: 2/3;
+  visibility: hidden;
+}
+
+header>div>.button_container {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  visibility: hidden;
+}
+
+/* CTA / Hero */
+main>article.hero {
+  grid-template-columns: 1fr 440px 440px 1fr;
+  grid-template-rows: 340px;
+  column-gap: 0;
+  row-gap: 0;
+  padding: 0;
+  grid-column: 1/5;
+  grid-row: 2/3;
+  background-color: #495E57;
+  border: 0;
+}
+
+.cta-reserve {
+  display: grid;
+  justify-items: start;
+  grid-column: 2/3;
+  grid-row: 1/2;
+  padding-right: 20px;
+  margin-top: 20px;
+  width: 68%;
+}
+
+img.hero {
+  grid-column: 3/4;
+  grid-row: 1/2;
+  width: 85%;
+  justify-self: end;
+  overflow: auto;
+  margin-top: 20px;
+}
+
+main>article.hero::before {
+  grid-column: 1/5;
+  content: "";
+  grid-row: 2/3;
+  background-color: white;
+  justify-self: stretch;
+  align-self: stretch;
+  height: 100px;
+}
+
+/* Specials */
+main>article.cta-order {
+  grid-column: 2/3;
+  grid-row: 3/4;
+}
+
+.dish-cards {
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0;
+}
+
+/* "This week's specials!" "Online Menu" */
+.grid-stretched-row {
+  grid-template-columns: auto auto;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.dish-card {
+  align-items: stretch;
+  grid-template-rows: auto auto minmax(7lh, auto) auto;
+  padding: 0 0 20px;
+}
+
+.dish-card .dish-picture {
+  width: 100%;
+}
+
+.dish-card>div,
+.dish-card>p,
+.dish-card>a {
+  padding: 0 20px;
+}
+
+.dish-card>p {
+  margin-block-end: 0;
+}
+
+img.bicycle-icon {
+  margin-left: 1ch;
+}
+
+/* Testimonials */
+main>article.testimonials {
+  grid-column: 2/3;
+  grid-row: 4/5;
+}
+
+.testimonials {
+  grid-template-columns: 1fr;
+}
+
+.testimonials>h1 {
+  text-align: center;
+}
+
+.review-photo-name>img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+.review-cards {
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0;
+}
+
+.review-card {
+  grid-template-rows: auto auto minmax(4lh, auto);
+  row-gap: 10px;
+  padding: 10px;
+  background-color: #FBDABB;
+}
+
+.review-card>p {
+  margin-block-end: 0;
+}
+
+.review-photo-name {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: 10px;
+}
+
+/* History */
+main>article.history {
+  grid-column: 2/3;
+  grid-row: 5/6;
+}
+
+article.history {
+  grid-template-columns: 3.5fr 0.5fr 4fr;
+  padding: 0;
+}
+
+.history>img {
+  width: 100%;
+}
+
+/* Footer */
+footer {
+  grid-row: 3/4;
+}
+
+footer>div {
+  grid-column: 2/3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.footer-col {
+  display: grid;
+  grid-template-rows: 2.5lh auto;
+  align-items: start;
+}
+
+footer>a>img {
+  width: 100%;
+}
+
+/* For medium screen sizes: 481 - 880px */
+@media only screen and (max-width: 880px) {
+
+  /* General settings */
+  header,
+  main,
+  footer,
+  footer>div {
+    grid-template-columns: 1fr;
+  }
+
+  /* Header */
+  header>div {
+    grid-column: 1/2;
+  }
+
+  header>div>.button_container {
+    grid-column: 3/4;
+    grid-row: 1/2;
+    /* Ensure that burger menu is aligned to the top right*/
+    justify-self: end;
+    align-self: start;
+    visibility: visible
+  }
+
+  header>div>a {
+    grid-column: 1/3;
+    grid-row: 1/2;
+    padding-right: 10px;
+  }
+
+  header>div>a>img {
+    width: 100%;
+  }
+
+  header>div>nav {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    visibility: hidden;
+  }
+
+  header>.overlay {
+    grid-column: 1/4;
+    grid-row: 2/3;
+    visibility: visible;
+  }
+
+  /* CTA / Hero */
+  main>article.hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 400px 140px;
+    grid-column: 1/2;
+  }
+
+  main>article.hero::before,
+  main>article.hero>article.cta-reserve,
+  main>article.hero>img {
+    grid-column: 1/2;
+  }
+
+  main>article.hero>img {
+    grid-row: 2/3;
+    max-width: 460px;
+    justify-self: start;
+  }
+
+  main>article.hero::before {
+    grid-row: 3/4;
+    height: 100%;
+  }
+
+  /* Specials */
+  main>article.cta-order {
+    grid-column: 1/2;
+  }
+
+  .dish-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dish-card {
+    grid-template-rows: auto auto minmax(3lh, auto) auto;
+  }
+
+  /* Testimonials */
+  main>article.testimonials {
+    grid-column: 1/2;
+  }
+
+  .review-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .review-card {
+    grid-template-rows: auto auto minmax(4lh, auto);
+  }
+
+  /* History */
+  main>article.history {
+    grid-column: 1/2;
+  }
+
+  article.history {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Footer */
+  footer>div {
+    grid-column: 1/2;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  footer>div>a {
+    /* Align the logo with
+    the logo in the header */
+    padding-right: 55px;
+    grid-column: 1/3;
+  }
+
+  footer>div>a>img {
+    width: 100%;
+  }
+
+
+  .footer-col {
+    grid-template-rows: auto auto;
+    row-gap: 10px;
+    margin-top: 30px;
+  }
+}
+
+/* For small screen sizes: maximum 481px */
+@media only screen and (max-width: 480px) {
+
+  /* Hero */
+  main>article.hero {
+    grid-template-rows: auto auto 0;
+  }
+
+  main>article.hero>img {
+    max-width: 90%;
+  }
+
+  main>article.hero::before {
+    width: 0;
+  }
+
+  /* Specials */
+  main>article.cta-order>div.grid-stretched-row {
+    grid-template-columns: auto;
+    justify-content: start;
+  }
+
+  main>article.cta-order>div.grid-stretched-row>a {
+    justify-self: start;
+  }
+
+  /* Testimonials */
+  .review-cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Footer */
+  footer>div {
+    grid-template-columns: 1fr;
+  }
+
+  footer>div>a {
+    grid-column: 1/2;
+  }
+}
+
+/* Burger menu */
+/* Adapted from https://codepen.io/KingKabir/pen/QyPwgG */
+/* Converted from jQuery to React, */
+/* and made some other customizations */
+
+.button_container {
+  position: relative;
+  /* fixed */
+  /* top: 5%;
+  right: 2%; */
+  height: 27px;
+  width: 35px;
+  cursor: pointer;
+  z-index: 100;
+  transition: opacity 0.25s ease;
+}
+
+.button_container:hover {
+  opacity: 0.7;
+}
+
+.button_container.active .top {
+  transform: translateY(11px) translateX(0) rotate(45deg);
+  /* background: #FFF; */
+  background: #495E57;
+}
+
+.button_container.active .middle {
+  opacity: 0;
+  background: #FFF;
+}
+
+.button_container.active .bottom {
+  transform: translateY(-11px) translateX(0) rotate(-45deg);
+  /* background: #FFF; */
+  background: #495E57;
+}
+
+.button_container span {
+  /* background: #1abc9c; */
+  border: none;
+  height: 5px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+.button_container span:nth-of-type(2) {
+  top: 11px;
+}
+
+.button_container span:nth-of-type(3) {
+  top: 22px;
+}
+
+.overlay {
+  position: fixed;
+  /* background: #1abc9c; */
+  top: 0;
+  /* 0 */
+  right: 0;
+  /*left: 0;*/
+  width: auto;
+  /*100%;*/
+  /* add padding */
+  padding: 50px 20px 10px 10px;
+  height: 0%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s, visibility 0.35s, height 0.35s;
+  overflow: hidden;
+}
+
+.overlay.open {
+  opacity: 0.9;
+  visibility: visible;
+  height: auto;
+  /* 100% */
+}
+
+.overlay.open li {
+  animation: fadeInRight 0.5s ease forwards;
+  animation-delay: 0.35s;
+}
+
+.overlay.open li:nth-of-type(2) {
+  animation-delay: 0.4s;
+}
+
+.overlay.open li:nth-of-type(3) {
+  animation-delay: 0.45s;
+}
+
+.overlay.open li:nth-of-type(4) {
+  animation-delay: 0.5s;
+}
+
+.overlay.open li:nth-of-type(5) {
+  animation-delay: 0.55s;
+}
+
+.overlay.open li:nth-of-type(6) {
+  animation-delay: 0.6s;
+}
+
+.overlay.open li:nth-of-type(7) {
+  animation-delay: 0.65s;
+}
+
+.overlay nav {
+  position: relative;
+  height: auto;
+  /* 70%; */
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  font-size: 18px;
+  /* font-family: "Varela Round", serif; */
+  font-weight: 400;
+  text-align: left;
+  /*center;*/
+}
+
+.overlay ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: inline-block;
+  position: relative;
+  height: 100%;
+}
+
+.overlay ul li {
+  display: block;
+  /* height: calc(100% / 4); */
+  min-height: 18px;
+  position: relative;
+  opacity: 0;
+}
+
+.overlay ul li a {
+  display: block;
+  position: relative;
+  /* color: #FFF; */
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.overlay ul li a:hover:after,
+.overlay ul li a:focus:after,
+.overlay ul li a:active:after {
+  width: 100%;
+}
+
+/* .overlay ul li a:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  transform: translateX(-50%);
+  height: 3px;
+  background: #FFF;
+  transition: 0.35s;
+} */
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    left: 20%;
+  }
+
+  100% {
+    opacity: 1;
+    left: 0;
+  }
 }
