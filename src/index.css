@@ -18,7 +18,7 @@ h4,
 h5,
 h6,
 p {
-  margin-block-end: 0.5em;
+  margin-block-end: 0.2em;
 }
 
 span {
@@ -283,7 +283,7 @@ main>article.history {
 /* Provide paddings to the left and right of the page */
 header>div,
 main>article.hero>article.cta-reserve,
-main>article.cta-order,
+main>article.main-article,
 main>article.testimonials,
 main>article.history,
 footer>div {
@@ -308,7 +308,7 @@ main {
   padding: 0;
 }
 
-main>article.cta-order,
+main>article.main-article,
 main>article.testimonials,
 main>article.history,
 footer {
@@ -395,7 +395,7 @@ main>article.hero::before {
 }
 
 /* Specials */
-main>article.cta-order {
+main>article.main-article {
   grid-column: 2/3;
   grid-row: 3/4;
 }
@@ -587,7 +587,7 @@ footer>a>img {
   }
 
   /* Specials */
-  main>article.cta-order {
+  main>article.main-article {
     grid-column: 1/2;
   }
 

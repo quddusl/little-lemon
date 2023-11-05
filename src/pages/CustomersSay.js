@@ -1,5 +1,5 @@
 import { reviews } from "./Reviews";
-export const Testimonials = () => {
+export const CustomersSay = () => {
   const reviewCards = reviews.map((review) => (
     <article className="card review-card" key={review.id}>
       <img

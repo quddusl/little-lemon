@@ -1,6 +1,6 @@
 import { ReservationLink } from "../layouts/Nav";
 import servingDishesPicture from "../assets/images/servingDishes.jpeg";
-export const Hero = () => {
+export const CallToAction = () => {
   return (
     <article className="hero">
       <article className="cta-reserve">

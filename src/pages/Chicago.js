@@ -1,5 +1,5 @@
 import marioAndAdrian from "../assets/images/Mario and Adrian b.jpg";
-export const History = () => {
+export const Chicago = () => {
   return (
     <article className="history">
       <article className="history-text">

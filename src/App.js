@@ -1,8 +1,10 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { Home } from "./pages/Home";
+import { Homepage } from "./pages/Homepage";
 import { UnderConstruction } from "./pages/UnderConstruction";
 import { Template } from "./layouts/Template";
+import { BookingPage } from "./pages/BookingPage";
+
 function App() {
   return (
     <React.StrictMode>
@@ -12,7 +14,15 @@ function App() {
             path="/"
             element={
               <Template>
-                <Home />
+                <Homepage />
+              </Template>
+            }
+          />
+          <Route
+            path="/booking"
+            element={
+              <Template>
+                <BookingPage />
               </Template>
             }
           />
@@ -29,14 +39,6 @@ function App() {
             element={
               <Template>
                 <UnderConstruction pageName="Menu" />
-              </Template>
-            }
-          />
-          <Route
-            path="/reservation"
-            element={
-              <Template>
-                <UnderConstruction pageName="Reservation" />
               </Template>
             }
           />

@@ -28,10 +28,7 @@ export const MenuLink = (props) => {
 
 export const ReservationLink = (props) => {
   return (
-    <NavLink
-      to="/reservation"
-      className={props.className || "section-category"}
-    >
+    <NavLink to="/booking" className={props.className || "section-category"}>
       {props.children || "Reservation"}
     </NavLink>
   );
