@@ -1,9 +1,9 @@
 import { Nav, HomeLink } from "./Nav";
 import logo from "../assets/images/Logo.svg";
-import facebook from "../assets/images/facebook.svg";
-import twitter from "../assets/images/twitter.svg";
-import instagram from "../assets/images/instagram.svg";
-import youtube from "../assets/images/youtube.svg";
+import { socialMedia } from "./SocialMedia";
+
+const iconFileExtension = ".svg";
+
 export const Footer = () => {
   return (
     <footer>
@@ -41,46 +41,18 @@ export const Footer = () => {
         <section aria-label="Social Media Links" className="footer-col">
           <h2 className="sub-sub-title">Social Media Links</h2>
           <ul>
-            <li>
-              <a href="https://www.facebook.com/ className='section-category'">
-                <img
-                  className="footer-social-icon"
-                  src={facebook}
-                  alt="Facebook Icon"
-                />
-                &nbsp;Facebook
-              </a>
-            </li>
-            <li>
-              <a href="https://www.twitter.com/" className="section-category">
-                <img
-                  className="footer-social-icon"
-                  src={twitter}
-                  alt="Twitter Icon"
-                />
-                &nbsp;Twitter
-              </a>
-            </li>
-            <li>
-              <a href="https://www.facebook.com/" className="section-category">
-                <img
-                  className="footer-social-icon"
-                  src={instagram}
-                  alt="Instagram Icon"
-                />
-                &nbsp;Instagram
-              </a>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/" className="section-category">
-                <img
-                  className="footer-social-icon"
-                  src={youtube}
-                  alt="YouTube Icon"
-                />
-                &nbsp;YouTube
-              </a>
-            </li>
+            {socialMedia.map((sm) => (
+              <li key={sm.name}>
+                <a href={sm.url} className="section-category">
+                  <img
+                    className="footer-social-icon"
+                    src={`${process.env.PUBLIC_URL}/images/${sm.icon}${iconFileExtension}`}
+                    alt={`${sm.name} Icon`}
+                  />
+                  &nbsp;{sm.name}
+                </a>
+              </li>
+            ))}
           </ul>
         </section>
       </div>

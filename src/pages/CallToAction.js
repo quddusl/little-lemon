@@ -2,7 +2,7 @@ import { ReservationLink } from "../layouts/Nav";
 import servingDishesPicture from "../assets/images/servingDishes.jpeg";
 export const CallToAction = () => {
   return (
-    <article className="hero">
+    <article className="hero home">
       <article className="cta-reserve">
         <h1 className="sub-title primary-yellow ">Little Lemon</h1>
         <h3 className="sub-sub-title highlight-soft-peach city">Chicago</h3>

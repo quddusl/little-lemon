@@ -207,11 +207,15 @@ footer h2 {
 
 /* Call to action buttons and cards */
 .card,
-.button {
+.button,
+.submit-button,
+.submit-button-invalid {
   border-radius: 16px;
 }
 
-.button {
+.button,
+.submit-button,
+.submit-button-invalid {
   padding: 8px 16px;
   margin-bottom: 12px;
   font-family: Karla;
@@ -221,18 +225,28 @@ footer h2 {
 }
 
 a.button-primary:link,
-a.button-primary:visited {
+a.button-primary:visited,
+.submit-button {
   color: black;
   background-color: #F4CE14;
   box-shadow: 0 8px #999;
 }
 
-a.button-primary:hover {
+.submit-button-invalid {
+  color: #00000080;
+  background-color: #F4CE1480;
+  box-shadow: 0 8px #99999980;
+  cursor: auto;
+}
+
+a.button-primary:hover,
+.submit-button:hover {
   background-color: #EE9972;
   box-shadow: 0 8px #666;
 }
 
-a.button-primary:active {
+a.button-primary:active,
+.submit-button:active {
   background-color: #EE9972;
   box-shadow: 0 8px #666;
   transform: translateY(4px);
@@ -242,6 +256,81 @@ a.button-primary:active {
   overflow: hidden;
   background-color: #FBDABB;
   padding-bottom: 20px;
+}
+
+/* Reservation form styles */
+article.main-article {
+  padding-bottom: 20px;
+}
+
+.form-container {
+  display: grid;
+  justify-content: stretch;
+  gap: 20px;
+  max-width: 300px;
+}
+
+.form-container>*,
+.input-container>* {
+  min-width: 0;
+}
+
+.input-container {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.input-field,
+.input-field-invalid {
+  font-family: Karla;
+  font-size: 16pt;
+  font-weight: normal;
+  height: 28px;
+  vertical-align: middle;
+  padding: 2px 5px;
+  border-radius: 8px;
+  border-width: 4px;
+  border-color: black;
+}
+
+.input-field-invalid {
+  border-color: red;
+}
+
+.submit-button,
+.submit-button-invalid {
+  height: 28px;
+  border-width: 0;
+  justify-self: start;
+}
+
+.input-label,
+.checkbox-label {
+  color: auto;
+}
+
+.checkbox-label {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+  /* align-items: start; */
+  justify-content: start;
+}
+
+.input-error {
+  color: red;
+}
+
+.input-field-set {
+  padding: 10px;
+}
+
+legend {
+  white-space: normal;
+  width: auto;
+  display: inline-block;
+  min-width: 0;
 }
 
 /* Page layout */
@@ -283,7 +372,7 @@ main>article.history {
 /* Provide paddings to the left and right of the page */
 header>div,
 main>article.hero>article.cta-reserve,
-main>article.main-article,
+main>article.hero>article.main-article,
 main>article.testimonials,
 main>article.history,
 footer>div {
@@ -299,7 +388,7 @@ main>article.hero>img {
 header,
 main,
 footer {
-  grid-template-columns: 1fr 880px 1fr;
+  grid-template-columns: 1fr 860px 1fr;
   column-gap: 0;
 }
 
@@ -354,8 +443,7 @@ header>div>.button_container {
 
 /* CTA / Hero */
 main>article.hero {
-  grid-template-columns: 1fr 440px 440px 1fr;
-  grid-template-rows: 340px;
+  grid-template-columns: 1fr 860px 1fr;
   column-gap: 0;
   row-gap: 0;
   padding: 0;
@@ -365,13 +453,23 @@ main>article.hero {
   border: 0;
 }
 
-.cta-reserve {
+main>article.hero.home {
+  grid-template-columns: 1fr 420px 420px 1fr;
+  grid-template-rows: 340px;
+}
+
+.cta-reserve,
+.main-article {
   display: grid;
   justify-items: start;
   grid-column: 2/3;
   grid-row: 1/2;
   padding-right: 20px;
   margin-top: 20px;
+}
+
+.cta-reserve {
+  grid-column: 2/3;
   width: 68%;
 }
 
@@ -384,7 +482,7 @@ img.hero {
   margin-top: 20px;
 }
 
-main>article.hero::before {
+main>article.hero.home::before {
   grid-column: 1/5;
   content: "";
   grid-row: 2/3;
@@ -502,7 +600,7 @@ footer {
 footer>div {
   grid-column: 2/3;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr 1fr 1.2fr 1fr;
 }
 
 .footer-col {
@@ -515,8 +613,8 @@ footer>a>img {
   width: 100%;
 }
 
-/* For medium screen sizes: 481 - 880px */
-@media only screen and (max-width: 880px) {
+/* For medium screen sizes: 481 - 860px */
+@media only screen and (max-width: 860px) {
 
   /* General settings */
   header,
@@ -563,14 +661,20 @@ footer>a>img {
   }
 
   /* CTA / Hero */
-  main>article.hero {
+  main>article.hero,
+  main>article.hero.home {
     grid-template-columns: 1fr;
+  }
+
+  main>article.hero.home {
     grid-template-rows: auto 400px 140px;
     grid-column: 1/2;
   }
 
   main>article.hero::before,
+  main>article.hero.home::before,
   main>article.hero>article.cta-reserve,
+  main>article.hero>article.main-article,
   main>article.hero>img {
     grid-column: 1/2;
   }
@@ -581,7 +685,8 @@ footer>a>img {
     justify-self: start;
   }
 
-  main>article.hero::before {
+  main>article.hero::before,
+  main>article.hero.home::before {
     grid-row: 3/4;
     height: 100%;
   }
@@ -647,11 +752,11 @@ footer>a>img {
   }
 }
 
-/* For small screen sizes: maximum 481px */
+/* For small screen sizes: maximum 480px */
 @media only screen and (max-width: 480px) {
 
   /* Hero */
-  main>article.hero {
+  main>article.hero.home {
     grid-template-rows: auto auto 0;
   }
 
