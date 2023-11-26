@@ -66,6 +66,7 @@ export const Input = ({
         onChange={(e) => {
           !!callOnChanged &&
             callOnChanged({
+              e,
               values,
               touched,
               errors,
@@ -124,6 +125,7 @@ export const Checkbox = ({
           onChange={(e) => {
             !!callOnChanged &&
               callOnChanged({
+                e,
                 values,
                 touched,
                 errors,
@@ -180,6 +182,7 @@ export const Select = ({
   const hidePlaceholder = (e) => {
     !!callOnChanged &&
       callOnChanged({
+        e,
         values,
         touched,
         errors,

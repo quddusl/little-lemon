@@ -298,6 +298,12 @@ article.main-article {
   border-color: red;
 }
 
+/* Make the timeslots occupy the same space*/
+.input-field[name="time"]>option,
+.input-field-invalid[name="time"]>option {
+  font-family: monospace;
+}
+
 .submit-button,
 .submit-button-invalid {
   height: 28px;

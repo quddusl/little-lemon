@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 export const HomeLink = (props) => {
-  console.log("HomeLink className: ", props.className);
   return (
     <NavLink to="/" className={props.className || "section-category"}>
       {props.children || "Home"}
@@ -46,7 +45,6 @@ export const OrderOnlineLink = (props) => {
 };
 
 export const LoginLink = (props) => {
-  console.log("props.className: ", props.className);
   return (
     <NavLink to="/login" className={props.className || "section-category"}>
       {props.children || "Login"}

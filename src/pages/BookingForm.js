@@ -66,7 +66,7 @@ const bookingSchema = object().shape(
     date: date()
       .required("Required")
       .min(
-        Date(new Date().setHours(0, 0, 0, 0)),
+        new Date(new Date().setHours(0, 0, 0, 0)),
         "Date cannot be in the past."
       ),
     time: string().required("Required"),
@@ -116,17 +116,7 @@ const bookingSchema = object().shape(
   ]
 );
 
-const BookingForm = () => {
-  // const availableTimes = ["17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
-  const [availableTimes, setAvailableTimes] = useState([
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-  ]);
-
+const BookingForm = ({ availableTimes, setAvailableTimes }) => {
   const timeOptions = (
     <>
       {availableTimes.map((time) => (
@@ -189,6 +179,9 @@ const BookingForm = () => {
             label="Booking date:"
             type="date"
             component={Input}
+            callOnChanged={({ e }) => {
+              setAvailableTimes(e.target.value);
+            }}
           />
           <Field
             name="time"
