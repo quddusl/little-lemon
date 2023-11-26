@@ -98,7 +98,12 @@ export const BurgerMenu = ({ children }) => {
 
   return (
     <>
-      <div className={toggle} id="toggle" onClick={handleClickBurgerMenu}>
+      <div
+        className={toggle}
+        id="toggle"
+        onClick={handleClickBurgerMenu}
+        aria-label="menu"
+      >
         <span className="top bg-primary-green"></span>
         <span className="middle bg-primary-green"></span>
         <span className="bottom bg-primary-green"></span>

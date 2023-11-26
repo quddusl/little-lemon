@@ -51,6 +51,10 @@ export const Input = ({
   const touch = getIn(touched, field.name);
   const error = getIn(errors, field.name);
   const inputType = { type: type || "text" };
+  const ariaInvalid = touch && error ? { "aria-invalid": true } : null;
+  const errorId = field.name + "-error";
+  const ariaDescribedby =
+    touch && error ? { "aria-describedby": errorId } : null;
   return (
     <div className={props.inputContainerClass || inputContainerClass}>
       <label
@@ -60,6 +64,7 @@ export const Input = ({
         {label}
       </label>
       <input
+        id={field.name}
         {...inputType}
         {...field}
         {...props}
@@ -88,6 +93,8 @@ export const Input = ({
             });
           field.onBlur(e);
         }}
+        {...ariaInvalid}
+        {...ariaDescribedby}
         className={
           touch && error
             ? props.inputFieldInvalidClass || inputFieldInvalidClass
@@ -95,7 +102,13 @@ export const Input = ({
         }
       />
       {(!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-        <div className={props.errorClass || errorClass}>{error}</div>
+        <div
+          id={errorId}
+          role="alert"
+          className={props.errorClass || errorClass}
+        >
+          {error}
+        </div>
       ) : null}
     </div>
   );
@@ -114,11 +127,16 @@ export const Checkbox = ({
 }) => {
   const touch = getIn(touched, field.name);
   const error = getIn(errors, field.name);
+  const ariaInvalid = touch && error ? { "aria-invalid": true } : null;
+  const errorId = field.name + "-error";
+  const ariaDescribedby =
+    touch && error ? { "aria-describedby": errorId } : null;
 
   return (
     <div className={props.inputContainerClass || inputContainerClass}>
       <label className={props.checkboxLabelClass || checkboxLabelClass}>
         <input
+          id={field.name}
           type="checkbox"
           {...field}
           {...props}
@@ -147,6 +165,8 @@ export const Checkbox = ({
               });
             field.onBlur(e);
           }}
+          {...ariaInvalid}
+          {...ariaDescribedby}
           className={
             touch && error
               ? props.inputFieldInvalidClass || inputFieldInvalidClass
@@ -156,7 +176,13 @@ export const Checkbox = ({
         {children}
       </label>
       {(!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-        <div className={props.errorClass || errorClass}>{error}</div>
+        <div
+          id={errorId}
+          role="alert"
+          className={props.errorClass || errorClass}
+        >
+          {error}
+        </div>
       ) : null}
     </div>
   );
@@ -176,6 +202,10 @@ export const Select = ({
 }) => {
   const touch = getIn(touched, field.name);
   const error = getIn(errors, field.name);
+  const ariaInvalid = touch && error ? { "aria-invalid": true } : null;
+  const errorId = field.name + "-error";
+  const ariaDescribedby =
+    touch && error ? { "aria-describedby": errorId } : null;
   const [placeholderStyle, setPlaceholderStyle] = useState(
     props.placeHolderStyle || selectPlaceholderStyle
   );
@@ -204,6 +234,7 @@ export const Select = ({
         {label}
       </label>
       <select
+        id={field.name}
         {...field}
         {...props}
         onChange={hidePlaceholder}
@@ -219,6 +250,8 @@ export const Select = ({
             });
           field.onBlur(e);
         }}
+        {...ariaInvalid}
+        {...ariaDescribedby}
         className={
           touch && error
             ? props.inputFieldInvalidClass || inputFieldInvalidClass
@@ -237,7 +270,13 @@ export const Select = ({
         {options}
       </select>
       {(!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-        <div className={props.errorClass || errorClass}>{error}</div>
+        <div
+          id={errorId}
+          role="alert"
+          className={props.errorClass || errorClass}
+        >
+          {error}
+        </div>
       ) : null}
     </div>
   );
@@ -260,7 +299,13 @@ export const Button = ({
     ? props.submitClass || submitClass
     : props.submitInvalidClass || submitInvalidClass;
   return (
-    <button {...field} {...disabled} className={buttonClass}>
+    <button
+      id={field.name}
+      {...field}
+      {...disabled}
+      {...props}
+      className={buttonClass}
+    >
       {children}
     </button>
   );

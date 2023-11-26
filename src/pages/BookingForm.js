@@ -116,7 +116,7 @@ const bookingSchema = object().shape(
   ]
 );
 
-const BookingForm = ({ availableTimes, setAvailableTimes }) => {
+const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
   const timeOptions = (
     <>
       {availableTimes.map((time) => (
@@ -160,10 +160,12 @@ const BookingForm = ({ availableTimes, setAvailableTimes }) => {
       initialValues={initialValues}
       validationSchema={bookingSchema}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+        onSubmit
+          ? onSubmit(values)
+          : setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
       }}
     >
       {({ values }) => (
@@ -267,7 +269,7 @@ const BookingForm = ({ availableTimes, setAvailableTimes }) => {
             cols="500"
             component={Input}
           />
-          <Field name="submit" component={Button}>
+          <Field name="submit" component={Button} type="submit">
             Make Your Reservation
           </Field>
           <DebugFormik debug={false} />

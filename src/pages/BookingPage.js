@@ -5,7 +5,12 @@ export const BookingPage = ({ availableTimes, setAvailableTimes }) => {
     <article className="hero">
       <article className="main-article booking">
         <h1 className="sub-title primary-yellow">Reserve Your Table</h1>
-        <BookingForm {...bookingProps} />
+        <BookingForm
+          {...bookingProps}
+          onSubmit={(values) => {
+            console.log("handleSubmit called, with values:", values);
+          }}
+        />
       </article>
     </article>
   );
