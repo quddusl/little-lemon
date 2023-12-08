@@ -4,6 +4,7 @@ import { Homepage } from "./pages/Homepage";
 import { UnderConstruction } from "./pages/UnderConstruction";
 import { Template } from "./layouts/Template";
 import { BookingPage } from "./pages/BookingPage";
+import { ConfirmedBooking } from "./pages/ConfirmedBooking";
 
 function App() {
   return (
@@ -23,6 +24,14 @@ function App() {
             element={
               <Template>
                 <BookingPage />
+              </Template>
+            }
+          />
+          <Route
+            path="/confirmation"
+            element={
+              <Template>
+                <ConfirmedBooking />
               </Template>
             }
           />

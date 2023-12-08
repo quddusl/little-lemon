@@ -1,16 +1,15 @@
 import BookingForm from "./BookingForm";
-export const BookingPage = ({ availableTimes, setAvailableTimes }) => {
+export const BookingPage = ({
+  availableTimes,
+  setAvailableTimes,
+  submitForm,
+}) => {
   const bookingProps = { availableTimes, setAvailableTimes };
   return (
     <article className="hero">
       <article className="main-article booking">
         <h1 className="sub-title primary-yellow">Reserve Your Table</h1>
-        <BookingForm
-          {...bookingProps}
-          onSubmit={(values) => {
-            console.log("handleSubmit called, with values:", values);
-          }}
-        />
+        <BookingForm {...bookingProps} onSubmit={submitForm} />
       </article>
     </article>
   );

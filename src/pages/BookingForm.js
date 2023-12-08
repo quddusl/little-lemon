@@ -1,6 +1,6 @@
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, useFormikContext } from "formik";
 import { object, string, date, number, boolean, bool } from "yup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Input,
   Checkbox,
@@ -18,8 +18,12 @@ const phoneRegExp = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
 
 const seatingLocaton = (
   <>
-    <option value="indoor">Indoor</option>
-    <option value="outdoor">Outdoor</option>
+    <option value="indoor" key={"indoor"}>
+      Indoor
+    </option>
+    <option value="outdoor" key={"outdoor"}>
+      Outdoor
+    </option>
   </>
 );
 
@@ -42,10 +46,13 @@ const occasionOptions = (
 
 const initialValues = {
   name: "",
-  date: "",
+  date: ((d) =>
+    `${d.getFullYear()}-${d.getMonth() + 1 < 10 ? "0" : ""}${
+      d.getMonth() + 1
+    }-${d.getDate() < 10 ? "0" : ""}${d.getDate()}`)(new Date()),
   time: "",
   numberOfGuests: defaultGuests,
-  occassion: "",
+  occasion: "",
   seatingLocation: "",
   confirmationRequired: false,
   emailConfirmation: false,
@@ -72,9 +79,9 @@ const bookingSchema = object().shape(
     time: string().required("Required"),
     numberOfGuests: number()
       .required("Required")
-      .min(minGuests, `Must not exceed ${minGuests}`)
+      .min(minGuests, `Must not be less than ${minGuests}`)
       .max(maxGuests, `Must not exceed ${maxGuests}`),
-    occassion: string(),
+    occasion: string(),
     seatingLocation: string(),
     confirmationRequired: boolean(),
     emailConfirmation: boolean().when(
@@ -116,16 +123,30 @@ const bookingSchema = object().shape(
   ]
 );
 
+const BookingFormEffects = ({ setAvailableTimes }) => {
+  const { values } = useFormikContext();
+  useEffect(() => {
+    setAvailableTimes(new Date(values.date));
+  }, [values.date, setAvailableTimes]);
+  return <span></span>;
+};
+
 const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
-  const timeOptions = (
-    <>
-      {availableTimes.map((time) => (
-        <option value={time} key={time}>
-          {time}
-        </option>
-      ))}
-    </>
-  );
+  const bookingProps = { setAvailableTimes, availableTimes };
+  const [timeOptions, setTimeOptions] = useState([]);
+  useEffect(() => {
+    setTimeOptions((to) => (
+      <>
+        {availableTimes
+          ? availableTimes.map((time) => (
+              <option value={time} key={time}>
+                {time}
+              </option>
+            ))
+          : []}
+      </>
+    ));
+  }, [availableTimes]);
 
   const [smsEmailTouched, setSmsEmailTouched] = useState(false);
 
@@ -161,15 +182,16 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
       validationSchema={bookingSchema}
       onSubmit={(values, { setSubmitting }) => {
         onSubmit
-          ? onSubmit(values)
+          ? onSubmit(values, setSubmitting)
           : setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
             }, 400);
       }}
     >
-      {({ values }) => (
+      {({ values, setAvailableTimes, availableTimes }) => (
         <Form className={defaultStyles.formContainerClass}>
+          <BookingFormEffects {...bookingProps} />
           <Field
             name="name"
             label="Full name:"
@@ -181,9 +203,6 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
             label="Booking date:"
             type="date"
             component={Input}
-            callOnChanged={({ e }) => {
-              setAvailableTimes(e.target.value);
-            }}
           />
           <Field
             name="time"
@@ -192,7 +211,6 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
             component={Select}
             options={timeOptions}
           />
-
           <Field
             name="numberOfGuests"
             label="Number of guests:"

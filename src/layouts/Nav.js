@@ -52,6 +52,17 @@ export const LoginLink = (props) => {
   );
 };
 
+export const BookingConfirmationLink = (props) => {
+  return (
+    <NavLink
+      to="/confirmation"
+      className={props.className || "section-category"}
+    >
+      {props.children || "Confirmation"}
+    </NavLink>
+  );
+};
+
 export const links = [
   HomeLink,
   AboutLink,

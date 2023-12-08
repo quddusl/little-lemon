@@ -259,10 +259,6 @@ a.button-primary:active,
 }
 
 /* Reservation form styles */
-article.main-article {
-  padding-bottom: 20px;
-}
-
 .form-container {
   display: grid;
   justify-content: stretch;
@@ -292,6 +288,10 @@ article.main-article {
   border-radius: 8px;
   border-width: 4px;
   border-color: black;
+}
+
+input[type="textarea"] {
+  height: 4em;
 }
 
 .input-field-invalid {
@@ -379,9 +379,11 @@ main>article.history {
 header>div,
 main>article.hero>article.cta-reserve,
 main>article.hero>article.main-article,
+main>article.cta-order,
 main>article.testimonials,
 main>article.history,
-footer>div {
+footer>div,
+.cta-order {
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -401,6 +403,10 @@ footer {
 main {
   row-gap: 0;
   padding: 0;
+}
+
+article.main-article {
+  padding-bottom: 20px;
 }
 
 main>article.main-article,
@@ -514,12 +520,17 @@ main>article.main-article {
   grid-template-columns: auto auto;
   padding: 0;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .dish-card {
   align-items: stretch;
   grid-template-rows: auto auto minmax(7lh, auto) auto;
   padding: 0 0 20px;
+}
+
+.dish-card .grid-stretched-row {
+  width: auto;
 }
 
 .dish-card .dish-picture {
@@ -778,6 +789,7 @@ footer>a>img {
   main>article.cta-order>div.grid-stretched-row {
     grid-template-columns: auto;
     justify-content: start;
+    width: 100%;
   }
 
   main>article.cta-order>div.grid-stretched-row>a {
