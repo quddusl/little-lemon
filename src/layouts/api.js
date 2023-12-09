@@ -16,13 +16,14 @@ export const fetchAPI = (date) => {
   );
   const slots = [];
   let i = 0;
-  while (i < freeSlots) {
-    let slot = allSlots[Math.floor(Math.random() * allSlots.length)];
+  while (i < freeSlots - 1) {
+    let slot = allSlots[Math.floor(Math.random() * (allSlots.length - 1))];
     if (!slots.find((s) => s === slot)) {
       slots.push(slot);
       i++;
     }
   }
+  slots.push("22:00"); // let "22:00" be always in the list, for testing purposes
   slots.sort();
   return slots;
 };
@@ -44,4 +45,3 @@ export const submitAPIAsync = (booking) =>
       resolve(submitAPI(booking));
     }, minDelay + Math.random(maxDelay - minDelay));
   });
-

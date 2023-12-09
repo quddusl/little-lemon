@@ -79,3 +79,138 @@ it("shall be possible to submit the form", async () => {
   await user.click(submitButton);
   // expect(handleSubmit).toHaveBeenCalled(); // bug in user-event library
 });
+
+it("shall have appropriate form validation attributes", () => {
+  render(<BookingForm {...bookingProps} />);
+  const fullName = screen.getByLabelText("Full name:");
+  expect(fullName).toHaveAttribute("required");
+  expect(fullName).toHaveAttribute(
+    "pattern",
+    "/^[a-z]([-']?[a-z]+)*( [a-z]([-']?[a-z]+)*)+$/im"
+  );
+
+  const bookingDate = screen.getByLabelText("Booking date:");
+  expect(bookingDate).toHaveAttribute("required");
+
+  const time = screen.getByLabelText("Time:");
+  expect(time).toHaveAttribute("required");
+
+  const numberOfGuests = screen.getByLabelText("Number of guests:");
+  expect(numberOfGuests).toHaveAttribute("required");
+  expect(numberOfGuests).toHaveAttribute("min", "1");
+  expect(numberOfGuests).toHaveAttribute("max", "20");
+});
+
+it("shall perform client side form validation", async () => {
+  const user = userEvent.setup();
+  render(<BookingForm {...bookingProps} />);
+
+  const fullName = screen.getByLabelText("Full name:");
+
+  // Check that pattern of Full name field is validated
+  await user.clear(fullName);
+  await user.type(fullName, "Bruk");
+  await user.tab();
+  expect(fullName).toHaveAttribute("aria-invalid");
+  expect(
+    screen.getByText("Name must have at least two words separated by space.")
+  ).toBeInTheDocument();
+
+  // Check that blank Full name field is not accepted
+  await user.clear(fullName);
+  await user.tab();
+  expect(fullName).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Required")).toBeInTheDocument();
+
+  //Check that valid Full name is accepted, with no error
+  await user.clear(fullName);
+  await user.type(fullName, "Bruk Quddus");
+  await user.tab();
+  expect(fullName).not.toHaveAttribute("aria-invalid");
+
+  const bookingDate = screen.getByLabelText("Booking date:");
+
+  await user.clear(bookingDate);
+  await user.tab();
+  expect(bookingDate).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Required")).toBeInTheDocument();
+
+  const dateToStr = (day) => {
+    const d = new Date(day);
+    return `${d.getFullYear()}-${d.getMonth() + 1 < 10 ? "0" : ""}${
+      d.getMonth() + 1
+    }-${d.getDate() < 10 ? "0" : ""}${d.getDate()}`;
+  };
+
+  const yesterday = ((d) => new Date(new Date(d).setDate(d.getDate() - 1)))(
+    new Date()
+  );
+  const yesterday_str = dateToStr(yesterday);
+
+  // Check that dates in the past are rejected
+  await user.clear(bookingDate);
+  await user.type(bookingDate, yesterday_str);
+  await user.tab();
+  expect(bookingDate).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Date cannot be in the past.")).toBeInTheDocument();
+
+  const today = new Date();
+  const today_str = dateToStr(today);
+
+  // Check that valid dates are accepted (today)
+  await user.clear(bookingDate);
+  await user.type(bookingDate, today_str);
+  await user.tab();
+  expect(bookingDate).not.toHaveAttribute("aria-invalid");
+
+  const tomorrow = ((d) => new Date(new Date(d).setDate(d.getDate() + 1)))(
+    new Date()
+  );
+  const tomorrow_str = dateToStr(tomorrow);
+
+  // Check that valid dates are accepted (future date)
+  await user.clear(bookingDate);
+  await user.type(bookingDate, tomorrow_str);
+  await user.tab();
+  expect(bookingDate).not.toHaveAttribute("aria-invalid");
+
+  // Check that error is thrown if time is not specified
+  const time = screen.getByLabelText("Time:");
+  await user.selectOptions(time, []);
+  await user.tab();
+  expect(time).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Required")).toBeInTheDocument();
+
+  // If time is selected, there shall be no error
+  await user.selectOptions(time, ["22:00"]);
+  await user.tab();
+  expect(time).not.toHaveAttribute("aria-invalid");
+
+  const numberOfGuests = screen.getByLabelText("Number of guests:");
+
+  // It shall reject input not specified
+  await user.clear(numberOfGuests);
+  await user.tab();
+  expect(numberOfGuests).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Required")).toBeInTheDocument();
+
+  // It shall reject inputs less than 1
+  await user.clear(numberOfGuests);
+  await user.type(numberOfGuests, "-3");
+  await user.tab();
+  expect(numberOfGuests).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Must not be less than 1")).toBeInTheDocument();
+
+  // It shall reject inputs greater than 20
+  await user.clear(numberOfGuests);
+  await user.type(numberOfGuests, "30");
+  await user.tab();
+  expect(numberOfGuests).toHaveAttribute("aria-invalid");
+  expect(screen.getByText("Must not exceed 20")).toBeInTheDocument();
+
+  // It shall not throw error for valid input
+  await user.clear(numberOfGuests);
+  await user.type(numberOfGuests, "15");
+  await user.tab();
+  expect(numberOfGuests).not.toHaveAttribute("aria-invalid");
+});

@@ -197,12 +197,15 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
             label="Full name:"
             placeholder="John Doe"
             component={Input}
+            required={true}
+            pattern="/^[a-z]([-']?[a-z]+)*( [a-z]([-']?[a-z]+)*)+$/im"
           />
           <Field
             name="date"
             label="Booking date:"
             type="date"
             component={Input}
+            required={true}
           />
           <Field
             name="time"
@@ -210,12 +213,16 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
             placeholder="Select time"
             component={Select}
             options={timeOptions}
+            required={true}
           />
           <Field
             name="numberOfGuests"
             label="Number of guests:"
             type="number"
             component={Input}
+            min={minGuests}
+            max={maxGuests}
+            required={true}
           />
           <Field
             name="occasion"
