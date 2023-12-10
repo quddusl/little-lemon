@@ -4,15 +4,14 @@ import logo from "../assets/images/Logo.svg";
 export const Header = () => {
   return (
     <header>
-      <div>
+      <Nav>
         <HomeLink>
           <img src={logo} alt="Little Lemon Logo" aria-label="Logo" />
         </HomeLink>
-        <Nav />
-        <BurgerMenu>
-          <Nav className="section-category" />
-        </BurgerMenu>
-      </div>
+      </Nav>
+      <BurgerMenu>
+        <Nav className="section-category" />
+      </BurgerMenu>
     </header>
   );
 };

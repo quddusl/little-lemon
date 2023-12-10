@@ -75,6 +75,7 @@ export const links = [
 export const Nav = (props) => {
   return (
     <nav>
+      {props.children}
       <ul>
         {links.map((link, index) => (
           <li key={index}>

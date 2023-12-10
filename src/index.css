@@ -40,7 +40,6 @@ span {
   font-size: 40pt;
   font-weight: normal;
   margin-block-start: 0;
-  /* margin-block-end: 0; */
   line-height: 80%;
 }
 
@@ -163,33 +162,49 @@ img.bicycle-icon {
 
 /* Header: navigation links (excluding burger menu)
    Footer: navigation and social media links */
-header>div>nav>ul,
+header>nav>ul,
 footer ul {
   /* No bullet symbols */
   list-style-type: none;
 }
 
-/* Align the menu to the right / end */
-header>div>nav {
-  justify-self: end;
+header>nav>a>img {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
 }
 
-header nav li {
-  display: inline-block;
+/* Align the menu to the right / end */
+header>nav>ul {
+  justify-self: end;
+  height: 100%;
+  margin-block-end: 0;
+}
+
+header>nav>ul,
+header>nav>ul>li {
+  height: 100%;
+}
+
+header>nav>ul>li {
+  display: inline-flex;
+  align-content: stretch;
 }
 
 header nav li>a {
-  padding: 0 0 0 20px;
+  padding: 0 10px 0 10px;
+  display: flex;
+  align-items: center;
 }
 
-nav a.active {
-  color: #495E57;
+header nav li>a.active {
+  background-color: #F4CE14;
 }
 
 header nav a,
 footer a {
   /* Also applies to burger menu */
-  /* Use header>div>nav>a to exclude burger menu */
+  /* Use header>nav>a to exclude burger menu */
   text-decoration: none;
   color: black;
 }
@@ -320,7 +335,6 @@ input[type="textarea"] {
   display: grid;
   grid-template-columns: auto auto;
   gap: 10px;
-  /* align-items: start; */
   justify-content: start;
 }
 
@@ -376,7 +390,7 @@ main>article.history {
 }
 
 /* Provide paddings to the left and right of the page */
-header>div,
+header>nav,
 main>article.hero>article.cta-reserve,
 main>article.hero>article.main-article,
 main>article.cta-order,
@@ -421,7 +435,13 @@ main>article.testimonials>h1 {
 }
 
 /* Header */
-header>div {
+header {
+  row-gap: 0;
+  grid-template-rows: auto 0 0;
+  padding: 0;
+}
+
+header>nav {
   display: grid;
   grid-template-columns: minmax(25%, auto) 1fr minmax(35px, auto);
   align-items: center;
@@ -431,23 +451,23 @@ header>div {
   grid-column: 2/3;
 }
 
-header>div>a {
+header>a {
   grid-column: 1/2;
   grid-row: 1/2;
 }
 
-header>div>nav {
-  grid-column: 2/4;
+header>nav {
+  grid-column: 2/3;
   grid-row: 1/2;
 }
 
-header>div>.overlay {
+header>.overlay {
   grid-column: 1/3;
   grid-row: 2/3;
   visibility: hidden;
 }
 
-header>div>.button_container {
+header>.button_container {
   grid-column: 3/4;
   grid-row: 2/3;
   visibility: hidden;
@@ -642,12 +662,21 @@ footer>a>img {
   }
 
   /* Header */
-  header>div {
+  header>nav {
+    grid-template-columns: 1fr;
     grid-column: 1/2;
   }
 
-  header>div>.button_container {
-    grid-column: 3/4;
+  header>nav>a {
+    grid-column: 1/2;
+    padding-right: 10px;
+  }
+
+  header>nav>a>img {
+    margin-left: 0;
+  }
+
+  header>.button_container {
     grid-row: 1/2;
     /* Ensure that burger menu is aligned to the top right*/
     justify-self: end;
@@ -655,24 +684,22 @@ footer>a>img {
     visibility: visible
   }
 
-  header>div>a {
-    grid-column: 1/3;
-    grid-row: 1/2;
-    padding-right: 10px;
-  }
-
-  header>div>a>img {
+  header>nav>a>img {
     width: 100%;
   }
 
-  header>div>nav {
-    grid-column: 2/3;
-    grid-row: 2/3;
+  header>.button_container {
+    margin-top: 20px;
+    margin-right: 10px;
+  }
+
+  header>nav>ul {
+    grid-column: 1/2;
     visibility: hidden;
   }
 
   header>.overlay {
-    grid-column: 1/4;
+    grid-column: 1/2;
     grid-row: 2/3;
     visibility: visible;
   }
