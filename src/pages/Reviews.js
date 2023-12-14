@@ -4,7 +4,8 @@ export const reviews = [
     name: "Jane Doe",
     picture: "JaneDoe.jpg",
     rating: 4,
-    review: "I like the Brucheta best. ",
+    review:
+      "I adore their pasta and grilled fish. The servers are also fantastic.",
   },
   {
     id: 2,
@@ -25,7 +26,6 @@ export const reviews = [
     name: "John Doe",
     picture: "JohnDoe.jpg",
     rating: 5,
-    review:
-      "I adore their pasta and grilled fish. The servers are also fantastic.",
+    review: "I like the Brucheta best. ",
   },
 ];

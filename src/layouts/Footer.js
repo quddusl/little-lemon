@@ -6,11 +6,16 @@ const iconFileExtension = ".svg";
 
 export const Footer = () => {
   return (
-    <footer>
-      <div>
+    <footer className="container page-footer">
+      <div className="content">
         <HomeLink>
-          <img src={logo} alt="Little Lemon Logo" aria-label="Logo" />
+          <img
+            src={logo}
+            alt="Little Lemon Logo"
+            aria-label="Logo - Go to Home Page"
+          />
         </HomeLink>
+
         <div className="footer-col">
           <h2 className="sub-sub-title">Doormat Navigation</h2>
           <Nav />

@@ -30,14 +30,16 @@ export const Specials = () => {
     </div>
   );
   return (
-    <article className="cta-order main-article">
-      <div className="grid-stretched-row">
-        <h1 className="sub-title">This week's specials!</h1>
-        <OrderOnlineLink className="button button-primary">
-          Online Menu
-        </OrderOnlineLink>
+    <section className="container cta-order main-article">
+      <div className="content">
+        <div className="grid-stretched-row">
+          <h1 className="sub-title">This week's specials!</h1>
+          <OrderOnlineLink className="button button-primary">
+            Online Menu
+          </OrderOnlineLink>
+        </div>
+        {dishCards}
       </div>
-      {dishCards}
-    </article>
+    </section>
   );
 };

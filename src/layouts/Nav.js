@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export const HomeLink = (props) => {
   return (
@@ -37,7 +37,7 @@ export const OrderOnlineLink = (props) => {
   return (
     <NavLink
       to="/order-online"
-      className={props.className || "section-category"}
+      className={props.className || "order-link section-category"}
     >
       {props.children || "Order Online"}
     </NavLink>
@@ -74,17 +74,20 @@ export const links = [
 
 export const Nav = (props) => {
   return (
-    <nav>
-      {props.children}
+    <nav className={props.className || "nav"}>
+      {props.children && props.children[0]}
       <ul>
         {links.map((link, index) => (
           <li key={index}>
             {link({
-              className: props.className || "section-category",
+              className: props.anchorClassName || "section-category",
             })}
           </li>
         ))}
       </ul>
+      {props.children &&
+        props.children.length > 1 &&
+        props.children.map((child, i) => (i === 0 ? null : child))}
     </nav>
   );
 };

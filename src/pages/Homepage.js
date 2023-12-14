@@ -5,11 +5,11 @@ import { Chicago } from "./Chicago";
 
 export const Homepage = () => {
   return (
-    <>
+    <article>
       <CallToAction />
       <Specials />
       <CustomersSay />
       <Chicago />
-    </>
+    </article>
   );
 };

@@ -1,7 +1,7 @@
 export const UnderConstruction = ({ pageName }) => {
   return (
-    <article className="hero">
-      <article className="main-article under-construction">
+    <div className="hero container">
+      <article className="main-article under-construction content">
         <h1 className="sub-title primary-yellow ">Page Under Construction</h1>
         <h3 className="sub-sub-title highlight-soft-peach city">
           The <i>{pageName}</i> page is under construction.
@@ -52,6 +52,6 @@ export const UnderConstruction = ({ pageName }) => {
           culpa qui officia deserunt mollit anim id est laborum.
         </p>
       </article>
-    </article>
+    </div>
   );
 };

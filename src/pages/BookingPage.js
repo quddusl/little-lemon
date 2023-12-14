@@ -6,8 +6,8 @@ export const BookingPage = ({
 }) => {
   const bookingProps = { availableTimes, setAvailableTimes };
   return (
-    <article className="hero">
-      <article className="main-article booking">
+    <article className="hero container">
+      <article className="main-article booking content">
         <h1 className="sub-title primary-yellow">Reserve Your Table</h1>
         <BookingForm {...bookingProps} onSubmit={submitForm} />
       </article>

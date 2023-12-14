@@ -17,11 +17,11 @@ export const CustomersSay = () => {
     </article>
   ));
   return (
-    <>
-      <article className="testimonials">
+    <section className="container">
+      <article className="content testimonials">
         <h1 className="sub-title">Testimonials</h1>
         <div className="review-cards">{reviewCards}</div>
       </article>
-    </>
+    </section>
   );
 };
