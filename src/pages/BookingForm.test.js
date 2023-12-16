@@ -2,6 +2,8 @@ import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { fetchAPI } from "../layouts/api";
 import BookingForm from "./BookingForm";
+import { date } from "yup";
+import { addDate, dateToStr } from "../layouts/util";
 
 let availableTimes = fetchAPI(new Date());
 const setAvailableTimes = (date) => (availableTimes = fetchAPI(date));
@@ -105,7 +107,49 @@ it("shall perform client side form validation", async () => {
   const user = userEvent.setup();
   render(<BookingForm {...bookingProps} />);
 
+  // Check that ther is no error when all mandatory inputs
+  // are properly provided
+
+  // Full name
   const fullName = screen.getByLabelText("Full name:");
+  await user.clear(fullName);
+  await user.type(fullName, "Bruk Quddus");
+  await user.tab();
+  expect(fullName).not.toHaveAttribute("aria-invalid");
+
+  const today = new Date();
+  const today_str = dateToStr(today);
+  const yesterday = addDate(today, -1);
+  const yesterday_str = dateToStr(yesterday);
+  const tomorrow = addDate(today, 1);
+  const tomorrow_str = dateToStr(tomorrow);
+
+  // Booking date
+  const bookingDate = screen.getByLabelText("Booking date:");
+  await user.clear(bookingDate);
+  await user.type(bookingDate, today_str);
+  await user.tab();
+  expect(bookingDate).not.toHaveAttribute("aria-invalid");
+
+  // Time
+  const time = screen.getByLabelText("Time:");
+  await user.selectOptions(time, ["22:00"]);
+  await user.tab();
+  expect(time).not.toHaveAttribute("aria-invalid");
+
+  // Number of guests
+  const numberOfGuests = screen.getByLabelText("Number of guests:");
+  await user.clear(numberOfGuests);
+  await user.type(numberOfGuests, "1");
+  await user.tab();
+  expect(numberOfGuests).not.toHaveAttribute("aria-invalid");
+
+  // Submit button
+  const submitButton = screen.getByRole("button", "Make Your Reservation");
+
+  // Form shall be valid by this time
+  expect(screen.queryByText("Required")).toBeNull();
+  expect(submitButton).not.toHaveAttribute("disabled");
 
   // Check that pattern of Full name field is validated
   await user.clear(fullName);
@@ -128,24 +172,11 @@ it("shall perform client side form validation", async () => {
   await user.tab();
   expect(fullName).not.toHaveAttribute("aria-invalid");
 
-  const bookingDate = screen.getByLabelText("Booking date:");
-
+  // Check that blank date input is rejected
   await user.clear(bookingDate);
   await user.tab();
   expect(bookingDate).toHaveAttribute("aria-invalid");
   expect(screen.getByText("Required")).toBeInTheDocument();
-
-  const dateToStr = (day) => {
-    const d = new Date(day);
-    return `${d.getFullYear()}-${d.getMonth() + 1 < 10 ? "0" : ""}${
-      d.getMonth() + 1
-    }-${d.getDate() < 10 ? "0" : ""}${d.getDate()}`;
-  };
-
-  const yesterday = ((d) => new Date(new Date(d).setDate(d.getDate() - 1)))(
-    new Date()
-  );
-  const yesterday_str = dateToStr(yesterday);
 
   // Check that dates in the past are rejected
   await user.clear(bookingDate);
@@ -154,19 +185,11 @@ it("shall perform client side form validation", async () => {
   expect(bookingDate).toHaveAttribute("aria-invalid");
   expect(screen.getByText("Date cannot be in the past.")).toBeInTheDocument();
 
-  const today = new Date();
-  const today_str = dateToStr(today);
-
   // Check that valid dates are accepted (today)
   await user.clear(bookingDate);
   await user.type(bookingDate, today_str);
   await user.tab();
   expect(bookingDate).not.toHaveAttribute("aria-invalid");
-
-  const tomorrow = ((d) => new Date(new Date(d).setDate(d.getDate() + 1)))(
-    new Date()
-  );
-  const tomorrow_str = dateToStr(tomorrow);
 
   // Check that valid dates are accepted (future date)
   await user.clear(bookingDate);
@@ -175,18 +198,15 @@ it("shall perform client side form validation", async () => {
   expect(bookingDate).not.toHaveAttribute("aria-invalid");
 
   // Check that error is thrown if time is not specified
-  const time = screen.getByLabelText("Time:");
-  await user.selectOptions(time, []);
+  await user.selectOptions(time, "");
   await user.tab();
   expect(time).toHaveAttribute("aria-invalid");
   expect(screen.getByText("Required")).toBeInTheDocument();
 
   // If time is selected, there shall be no error
-  await user.selectOptions(time, ["22:00"]);
+  await user.selectOptions(time, "22:00");
   await user.tab();
   expect(time).not.toHaveAttribute("aria-invalid");
-
-  const numberOfGuests = screen.getByLabelText("Number of guests:");
 
   // It shall reject input not specified
   await user.clear(numberOfGuests);

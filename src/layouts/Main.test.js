@@ -2,7 +2,9 @@ import { initializeTimes, updateTimes } from "./Main";
 
 const d = new Date();
 const today = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-const tomorrow = new Date(new Date(today).setDate(d.getDate() + 1));
+const tomorrow = ((d) => new Date(new Date().setDate(d.getDate() + 1)))(
+  new Date(today)
+);
 
 // Mock fetchAPI()
 jest.mock("./api.js", () => ({
@@ -10,7 +12,8 @@ jest.mock("./api.js", () => ({
   fetchAPI: (day) => {
     const d = new Date();
     const today = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    const tomorrow = new Date(new Date(today).setDate(today.getDate() + 1));
+    const tomorrow = ((d) =>
+      new Date(new Date(today).setDate(d.getDate() + 1)))(new Date(today));
     const dayMidnight = new Date(
       day.getFullYear(),
       day.getMonth(),

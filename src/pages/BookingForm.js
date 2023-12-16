@@ -9,6 +9,7 @@ import {
   defaultStyles,
   DebugFormik,
 } from "./InputControls";
+import { dateToStr } from "../layouts/util";
 
 const minGuests = 1;
 const maxGuests = 20;
@@ -46,10 +47,7 @@ const occasionOptions = (
 
 const initialValues = {
   name: "",
-  date: ((d) =>
-    `${d.getFullYear()}-${d.getMonth() + 1 < 10 ? "0" : ""}${
-      d.getMonth() + 1
-    }-${d.getDate() < 10 ? "0" : ""}${d.getDate()}`)(new Date()),
+  date: "",
   time: "",
   numberOfGuests: defaultGuests,
   occasion: "",
@@ -206,6 +204,7 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
             type="date"
             component={Input}
             required={true}
+            min={dateToStr(new Date())}
           />
           <Field
             name="time"

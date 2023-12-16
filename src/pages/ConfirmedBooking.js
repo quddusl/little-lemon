@@ -35,8 +35,8 @@ export const ConfirmedBooking = () => {
   ) : null;
 
   return (
-    <article className="main-article hero">
-      <article className="booking-confirmed">
+    <article className="main-article hero container">
+      <article className="booking-confirmed content">
         {firstLine}
         {secondLine}
         {bookingDetails}

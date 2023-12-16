@@ -5,14 +5,15 @@ import {
   submitAPIAsync,
   getAllSlots,
 } from "./api";
+import { addDate } from "./util";
 
 const allSlots = getAllSlots();
 
 it("shall provide some slots when queried", () => {
   let slots;
   const today = new Date();
-  const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
-  const afterAWeek = new Date(new Date().setDate(today.getDate() + 7));
+  const tomorrow = addDate(today, 1);
+  const afterAWeek = addDate(today, 7);
 
   slots = fetchAPI(today);
   expect(allSlots).toEqual(expect.arrayContaining(slots));
@@ -55,8 +56,8 @@ it("shall return status when booings are submitted", () => {
 it("shall provide some slots when queried - async", async () => {
   let slots;
   const today = new Date();
-  const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
-  const afterAWeek = new Date(new Date().setDate(today.getDate() + 7));
+  const tomorrow = addDate(today, 1);
+  const afterAWeek = addDate(today, 7);
 
   await fetchAPIAsync(today).then((result) => (slots = result));
   expect(allSlots).toEqual(expect.arrayContaining(slots));
