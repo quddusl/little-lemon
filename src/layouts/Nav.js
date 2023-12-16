@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useReducer, useRef, useEffect } from "react";
 
 export const HomeLink = (props) => {
   return (
@@ -96,34 +96,78 @@ export const BurgerMenu = ({ children }) => {
   // Adapted from https://codepen.io/KingKabir/pen/QyPwgG
   // Converted from jQuery to React,
   // and made some other customizations
-  const toggleOn = "button_container active";
-  const toggleOff = "button_container";
-  const overlayOpen = "overlay bg-highlight-soft-peach open";
-  const overlayClose = "overlay";
-  const [overlayOpened, setOverlayOpened] = useState(false);
-  const [toggle, setToggle] = useState(toggleOff);
-  const [overlay, setOverlay] = useState(overlayClose);
 
-  const handleClickBurgerMenu = (e) => {
-    e.preventDefault();
-    setOverlayOpened((prev) => !prev);
-    setToggle(overlayOpened ? toggleOn : toggleOff);
-    setOverlay(overlayOpened ? overlayOpen : overlayClose);
+  const burgerMenuOverlayRef = useRef(null);
+  const burgerMenuButtonRef = useRef(null);
+
+  const closeBM = {
+    isMenuOpen: false,
+    buttonStyle: "button_container",
+    overlayStyle: "overlay",
   };
+
+  const openBM = {
+    isMenuOpen: true,
+    buttonStyle: "button_container active",
+    overlayStyle: "overlay bg-highlight-soft-peach open",
+  };
+
+  const toggleBurgerMenuReducer = (state, action) => {
+    if (action.type === "BM_OPEN") {
+      return { ...openBM };
+    } else if (action.type === "BM_CLOSE") {
+      return { ...closeBM };
+    } else if (action.type === "BM_TOGGLE") {
+      return state.isMenuOpen ? { ...closeBM } : { ...openBM };
+    } else {
+      throw new Error("Invalid action for toggleBurgerMenuReducer.");
+    }
+  };
+
+  const [burgerMenuState, toggleBurgerMenu] = useReducer(
+    toggleBurgerMenuReducer,
+    { ...closeBM }
+  );
+
+  const buttonClickHandler = (e) => {
+    toggleBurgerMenu({ type: "BM_TOGGLE" });
+  };
+
+  const overlayBlurHandler = (e) => {
+    if (e.relatedTarget !== burgerMenuButtonRef.current) {
+      toggleBurgerMenu({ type: "BM_CLOSE" });
+    }
+  };
+
+  useEffect(() => {
+    if (burgerMenuState.isMenuOpen) {
+      burgerMenuOverlayRef.current.focus();
+    }
+  }, [burgerMenuState.isMenuOpen]);
 
   return (
     <>
       <div
-        className={toggle}
+        className={burgerMenuState.buttonStyle}
         id="toggle"
-        onClick={handleClickBurgerMenu}
+        ref={burgerMenuButtonRef}
+        tabIndex={-1} // Make it focusable
+        onClick={buttonClickHandler}
         aria-label="menu"
       >
         <span className="top bg-primary-green"></span>
         <span className="middle bg-primary-green"></span>
         <span className="bottom bg-primary-green"></span>
       </div>
-      <div className={overlay} id="overlay" onClick={handleClickBurgerMenu}>
+      <div
+        className={burgerMenuState.overlayStyle}
+        id="overlay"
+        ref={burgerMenuOverlayRef}
+        tabIndex={-2} // Make it focusable
+        // To avoid onClick being blocked by onBlur, give some delay
+        // Can also use onMouseDown instead of onClick as it has higher priority
+        onBlur={(e) => setTimeout(() => overlayBlurHandler(e), 100)}
+      >
         {children}
       </div>
     </>

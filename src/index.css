@@ -832,7 +832,8 @@ img.bicycle-icon {
 .overlay {
   position: fixed;
   /* background: #1abc9c; */
-  top: 0;
+  /* top: 0; */
+  top: 55px;
   /* 0 */
   right: 0;
   /*left: 0;*/
