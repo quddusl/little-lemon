@@ -131,6 +131,7 @@ export const BurgerMenu = ({ children }) => {
 
   const buttonClickHandler = (e) => {
     toggleBurgerMenu({ type: "BM_TOGGLE" });
+    e.preventDefault();
   };
 
   const overlayBlurHandler = (e) => {
@@ -166,7 +167,7 @@ export const BurgerMenu = ({ children }) => {
         tabIndex={-2} // Make it focusable
         // To avoid onClick being blocked by onBlur, give some delay
         // Can also use onMouseDown instead of onClick as it has higher priority
-        onBlur={(e) => setTimeout(() => overlayBlurHandler(e), 100)}
+        onBlur={(e) => setTimeout(() => overlayBlurHandler(e), 300)}
       >
         {children}
       </div>

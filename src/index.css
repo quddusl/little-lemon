@@ -845,7 +845,8 @@ img.bicycle-icon {
   width: auto;
   /*100%;*/
   /* add padding */
-  padding: 50px 20px 10px 10px;
+  /* padding: 50px 20px 10px 10px; */
+  padding: 20px 20px 10px 10px;
   height: 0%;
   opacity: 0;
   visibility: hidden;
