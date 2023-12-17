@@ -39,160 +39,11 @@ export const Label = ({ children, ...props }) => {
 
 export const Input = ({
   field,
-  form: { touched, errors, values, setValues, setTouched, setErrors },
+  form: { values, touched, errors, setValues, setTouched, setErrors },
   type,
   label,
-  callOnChanged,
-  callOnBlur,
-  showErrors = true,
-  showErrorOnlyOnTouch = true,
-  ...props
-}) => {
-  const touch = getIn(touched, field.name);
-  const error = getIn(errors, field.name);
-  const inputType = { type: type || "text" };
-  const ariaInvalid = touch && error ? { "aria-invalid": true } : null;
-  const errorId = field.name + "-error";
-  const ariaDescribedby =
-    touch && error ? { "aria-describedby": errorId } : null;
-  return (
-    <div className={props.inputContainerClass || inputContainerClass}>
-      <label
-        htmlFor={field.name || props.id}
-        className={props.labelClass || labelClass}
-      >
-        {label}
-      </label>
-      <input
-        id={field.name}
-        {...inputType}
-        {...field}
-        {...props}
-        onChange={(e) => {
-          !!callOnChanged &&
-            callOnChanged({
-              e,
-              values,
-              touched,
-              errors,
-              setValues,
-              setTouched,
-              setErrors,
-            });
-          field.onChange(e);
-        }}
-        onBlur={(e) => {
-          !!callOnBlur &&
-            callOnBlur({
-              values,
-              touched,
-              errors,
-              setValues,
-              setTouched,
-              setErrors,
-            });
-          field.onBlur(e);
-        }}
-        {...ariaInvalid}
-        {...ariaDescribedby}
-        className={
-          touch && error
-            ? props.inputFieldInvalidClass || inputFieldInvalidClass
-            : props.inputFieldClass || inputFieldClass
-        }
-      />
-      {(!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-        <div
-          id={errorId}
-          role="alert"
-          className={props.errorClass || errorClass}
-        >
-          {error}
-        </div>
-      ) : null}
-    </div>
-  );
-};
-
-export const Checkbox = ({
-  field,
-  form: { values, touched, errors, setValues, setTouched, setErrors },
-  label,
-  children,
-  callOnChanged,
-  callOnBlur,
-  showErrors = true,
-  showErrorOnlyOnTouch = true,
-  ...props
-}) => {
-  const touch = getIn(touched, field.name);
-  const error = getIn(errors, field.name);
-  const ariaInvalid = touch && error ? { "aria-invalid": true } : null;
-  const errorId = field.name + "-error";
-  const ariaDescribedby =
-    touch && error ? { "aria-describedby": errorId } : null;
-
-  return (
-    <div className={props.inputContainerClass || inputContainerClass}>
-      <label className={props.checkboxLabelClass || checkboxLabelClass}>
-        <input
-          id={field.name}
-          type="checkbox"
-          {...field}
-          {...props}
-          onChange={(e) => {
-            !!callOnChanged &&
-              callOnChanged({
-                e,
-                values,
-                touched,
-                errors,
-                setValues,
-                setTouched,
-                setErrors,
-              });
-            field.onChange(e);
-          }}
-          onBlur={(e) => {
-            !!callOnBlur &&
-              callOnBlur({
-                values,
-                touched,
-                errors,
-                setValues,
-                setTouched,
-                setErrors,
-              });
-            field.onBlur(e);
-          }}
-          {...ariaInvalid}
-          {...ariaDescribedby}
-          className={
-            touch && error
-              ? props.inputFieldInvalidClass || inputFieldInvalidClass
-              : props.inputFieldClass || inputFieldClass
-          }
-        />
-        {children}
-      </label>
-      {(!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-        <div
-          id={errorId}
-          role="alert"
-          className={props.errorClass || errorClass}
-        >
-          {error}
-        </div>
-      ) : null}
-    </div>
-  );
-};
-
-export const Select = ({
-  field,
-  form: { values, touched, errors, setValues, setTouched, setErrors },
-  label,
   options,
+  children,
   callOnChanged,
   callOnBlur,
   showErrors = true,
@@ -202,6 +53,12 @@ export const Select = ({
 }) => {
   const touch = getIn(touched, field.name);
   const error = getIn(errors, field.name);
+  const inputType =
+    type === "checkbox"
+      ? { type: "checkbox" }
+      : type === "select" || type === "textarea"
+      ? null
+      : { type: type || "text" };
   const ariaInvalid = touch && error ? { "aria-invalid": true } : null;
   const errorId = field.name + "-error";
   const ariaDescribedby =
@@ -209,77 +66,97 @@ export const Select = ({
   const [placeholderStyle, setPlaceholderStyle] = useState(
     props.placeHolderStyle || selectPlaceholderStyle
   );
-  const hidePlaceholder = (e) => {
-    !!callOnChanged &&
-      callOnChanged({
-        e,
-        values,
-        touched,
-        errors,
-        setValues,
-        setTouched,
-        setErrors,
-      });
-    field.onChange(e);
-    if (!!placeholder) {
-      setPlaceholderStyle((style) => ({ display: "none", ...style }));
-    }
+  const inputProps = {
+    ...props,
+    id: field.name,
+    ...inputType,
+    ...field,
+    onChange: (e) => {
+      !!callOnChanged &&
+        callOnChanged({
+          e,
+          values,
+          touched,
+          errors,
+          setValues,
+          setTouched,
+          setErrors,
+        });
+      if (!!placeholder) {
+        setPlaceholderStyle((style) => ({ ...style, display: "none" }));
+      }
+      field.onChange(e);
+    },
+    onBlur: (e) => {
+      !!callOnBlur &&
+        callOnBlur({
+          values,
+          touched,
+          errors,
+          setValues,
+          setTouched,
+          setErrors,
+        });
+      field.onBlur(e);
+    },
+    ...ariaInvalid,
+    ...ariaDescribedby,
+    className:
+      touch && error
+        ? props.inputFieldInvalidClass || inputFieldInvalidClass
+        : props.inputFieldClass || inputFieldClass,
   };
-  return (
-    <div className={props.inputContainerClass || inputContainerClass}>
-      <label
-        htmlFor={field.name || props.id}
-        className={props.labelClass || labelClass}
-      >
-        {label}
-      </label>
-      <select
-        id={field.name}
-        {...field}
-        {...props}
-        onChange={hidePlaceholder}
-        onBlur={(e) => {
-          !!callOnBlur &&
-            callOnBlur({
-              values,
-              touched,
-              errors,
-              setValues,
-              setTouched,
-              setErrors,
-            });
-          field.onBlur(e);
-        }}
-        {...ariaInvalid}
-        {...ariaDescribedby}
-        className={
-          touch && error
-            ? props.inputFieldInvalidClass || inputFieldInvalidClass
-            : props.inputFieldClass || inputFieldClass
-        }
-      >
-        {placeholder ? (
-          <option
-            value=""
-            style={placeholderStyle}
-            className={props.selectPlaceholderClass || selectPlaceholderClass}
-          >
-            {placeholder}
-          </option>
-        ) : null}
-        {options}
-      </select>
-      {(!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-        <div
-          id={errorId}
-          role="alert"
-          className={props.errorClass || errorClass}
+  const errorMessage =
+    (!showErrorOnlyOnTouch || touch) && error && showErrors ? (
+      <div id={errorId} role="alert" className={props.errorClass || errorClass}>
+        {error}
+      </div>
+    ) : null;
+  let inputControl;
+  if (type === "checkbox") {
+    inputControl = (
+      <div className={props.inputContainerClass || inputContainerClass}>
+        <label className={props.checkboxLabelClass || checkboxLabelClass}>
+          <input {...inputProps} />
+          {children}
+        </label>
+        {errorMessage}
+      </div>
+    );
+  } else {
+    inputControl = (
+      <div className={props.inputContainerClass || inputContainerClass}>
+        <label
+          htmlFor={field.name || props.id}
+          className={props.labelClass || labelClass}
         >
-          {error}
-        </div>
-      ) : null}
-    </div>
-  );
+          {label}
+        </label>
+        {type === "select" ? (
+          <select {...inputProps}>
+            {placeholder ? (
+              <option
+                value=""
+                style={placeholderStyle}
+                className={
+                  props.selectPlaceholderClass || selectPlaceholderClass
+                }
+              >
+                {placeholder}
+              </option>
+            ) : null}
+            {options}
+          </select>
+        ) : type === "textarea" ? (
+          <textarea {...inputProps} />
+        ) : (
+          <input {...inputProps} />
+        )}
+        {errorMessage}
+      </div>
+    );
+  }
+  return inputControl;
 };
 
 export const Button = ({

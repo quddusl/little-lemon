@@ -1,14 +1,7 @@
 import { Formik, Form, Field, useFormikContext } from "formik";
 import { object, string, date, number, boolean, bool } from "yup";
 import { useState, useEffect } from "react";
-import {
-  Input,
-  Checkbox,
-  Select,
-  Button,
-  defaultStyles,
-  DebugFormik,
-} from "./InputControls";
+import { Input, Button, defaultStyles, DebugFormik } from "./InputControls";
 import { dateToStr } from "../layouts/util";
 
 const minGuests = 1;
@@ -209,8 +202,9 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
           <Field
             name="time"
             label="Time:"
+            type="select"
             placeholder="Select time"
-            component={Select}
+            component={Input}
             options={timeOptions}
             required={true}
           />
@@ -226,21 +220,25 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
           <Field
             name="occasion"
             label="Occasion:"
+            type="select"
             placeholder="Select occasion"
-            component={Select}
+            component={Input}
             options={occasionOptions}
           />
           <Field
             name="seatingLocation"
             label="Preferred seating location:"
+            type="select"
             placeholder="Select location"
-            component={Select}
+            component={Input}
             options={seatingLocaton}
           />
           <Field
             name="confirmationRequired"
+            type="checkbox"
             callOnChanged={resetConfirmation}
-            component={Checkbox}
+            callOnBlur={confirmationBlur}
+            component={Input}
           >
             Confirmation required
           </Field>
@@ -250,18 +248,20 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
                 <legend>Confirmation method</legend>
                 <Field
                   name="emailConfirmation"
+                  type="checkbox"
                   showErrors={false}
                   callOnChanged={confirmationUpdated}
                   callOnBlur={confirmationBlur}
-                  component={Checkbox}
+                  component={Input}
                 >
                   Email
                 </Field>
                 <Field
                   name="smsConfirmation"
+                  type="checkbox"
                   showErrors={smsEmailTouched}
                   callOnChanged={confirmationUpdated}
-                  component={Checkbox}
+                  component={Input}
                   showErrorOnlyOnTouch={false}
                 >
                   SMS

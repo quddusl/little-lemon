@@ -258,7 +258,8 @@ a.button-primary:active,
   border-color: black;
 }
 
-input[type="textarea"] {
+textarea.input-field,
+textarea.input-field-invalid {
   height: 4em;
 }
 
