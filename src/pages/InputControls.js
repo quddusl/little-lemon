@@ -29,10 +29,14 @@ export const defaultStyles = {
   submitInvalidClass,
 };
 
-export const Label = ({ children, ...props }) => {
+export const Label = ({
+  children,
+  inputContainerClass = defaultStyles.inputContainerClass,
+  labelClass = defaultStyles.labelClass,
+}) => {
   return (
-    <div className={props.inputContainerClass || inputContainerClass}>
-      <label className={props.labelClass || labelClass}>{children}</label>
+    <div className={inputContainerClass}>
+      <label className={labelClass}>{children}</label>
     </div>
   );
 };
@@ -49,6 +53,14 @@ export const Input = ({
   showErrors = true,
   showErrorOnlyOnTouch = true,
   placeholder,
+  inputContainerClass = defaultStyles.inputContainerClass,
+  labelClass = defaultStyles.labelClass,
+  checkboxLabelClass = defaultStyles.checkboxLabelClass,
+  inputFieldClass = defaultStyles.inputFieldClass,
+  inputFieldInvalidClass = defaultStyles.inputFieldInvalidClass,
+  errorClass = defaultStyles.errorClass,
+  selectPlaceholderClass = defaultStyles.selectPlaceholderClass,
+  selectPlaceholderStyle = defaultStyles.selectPlaceholderStyle,
   ...props
 }) => {
   const touch = getIn(touched, field.name);
@@ -64,7 +76,7 @@ export const Input = ({
   const ariaDescribedby =
     touch && error ? { "aria-describedby": errorId } : null;
   const [placeholderStyle, setPlaceholderStyle] = useState(
-    props.placeHolderStyle || selectPlaceholderStyle
+    selectPlaceholderStyle
   );
   const inputProps = {
     ...props,
@@ -101,22 +113,19 @@ export const Input = ({
     },
     ...ariaInvalid,
     ...ariaDescribedby,
-    className:
-      touch && error
-        ? props.inputFieldInvalidClass || inputFieldInvalidClass
-        : props.inputFieldClass || inputFieldClass,
+    className: touch && error ? inputFieldInvalidClass : inputFieldClass,
   };
   const errorMessage =
     (!showErrorOnlyOnTouch || touch) && error && showErrors ? (
-      <div id={errorId} role="alert" className={props.errorClass || errorClass}>
+      <div id={errorId} role="alert" className={errorClass}>
         {error}
       </div>
     ) : null;
   let inputControl;
   if (type === "checkbox") {
     inputControl = (
-      <div className={props.inputContainerClass || inputContainerClass}>
-        <label className={props.checkboxLabelClass || checkboxLabelClass}>
+      <div className={inputContainerClass}>
+        <label className={checkboxLabelClass}>
           <input {...inputProps} />
           {children}
         </label>
@@ -125,11 +134,8 @@ export const Input = ({
     );
   } else {
     inputControl = (
-      <div className={props.inputContainerClass || inputContainerClass}>
-        <label
-          htmlFor={field.name || props.id}
-          className={props.labelClass || labelClass}
-        >
+      <div className={inputContainerClass}>
+        <label htmlFor={field.name || props.id} className={labelClass}>
           {label}
         </label>
         {type === "select" ? (
@@ -138,9 +144,7 @@ export const Input = ({
               <option
                 value=""
                 style={placeholderStyle}
-                className={
-                  props.selectPlaceholderClass || selectPlaceholderClass
-                }
+                className={selectPlaceholderClass}
               >
                 {placeholder}
               </option>
@@ -165,6 +169,8 @@ export const Button = ({
   field,
   disableIfInvalid = true,
   enableNotDirty = false,
+  submitClass = defaultStyles.submitClass,
+  submitInvalidClass = defaultStyles.submitInvalidClass,
   ...props
 }) => {
   const modifiedAndValid = dirty && isValid && !isValidating && !isSubmitting;
@@ -172,9 +178,7 @@ export const Button = ({
     disableIfInvalid && !enableNotDirty && !modifiedAndValid
       ? { disabled: true }
       : null;
-  const buttonClass = modifiedAndValid
-    ? props.submitClass || submitClass
-    : props.submitInvalidClass || submitInvalidClass;
+  const buttonClass = modifiedAndValid ? submitClass : submitInvalidClass;
   return (
     <button
       id={field.name}

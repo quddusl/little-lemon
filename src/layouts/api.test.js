@@ -76,7 +76,7 @@ it("shall provide some slots when queried - async", async () => {
   expect(allSlots.length).toBeGreaterThan(slots.length);
 });
 
-it("shall return status when booings are submitted - async", async () => {
+it("shall return status when bookings are submitted - async", async () => {
   let success = 0,
     failure = 0,
     status;
