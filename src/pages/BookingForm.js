@@ -1,6 +1,6 @@
-import { Formik, Form, Field, useFormikContext } from "formik";
+import { Formik, Form, Field } from "formik";
 import { object, string, date, number, boolean, bool } from "yup";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input, Button, defaultStyles, DebugFormik } from "./InputControls";
 import { dateToStr } from "../layouts/util";
 
@@ -114,30 +114,19 @@ const bookingSchema = object().shape(
   ]
 );
 
-const BookingFormEffects = ({ setAvailableTimes }) => {
-  const { values } = useFormikContext();
-  useEffect(() => {
-    setAvailableTimes(new Date(values.date));
-  }, [values.date, setAvailableTimes]);
-  return <span></span>;
-};
+const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
+  const timeOptions = availableTimes
+    ? availableTimes.map((time) => (
+        <option value={time} key={time}>
+          {time}
+        </option>
+      ))
+    : [];
 
-const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
-  const bookingProps = { setAvailableTimes, availableTimes };
-  const [timeOptions, setTimeOptions] = useState([]);
-  useEffect(() => {
-    setTimeOptions((to) => (
-      <>
-        {availableTimes
-          ? availableTimes.map((time) => (
-              <option value={time} key={time}>
-                {time}
-              </option>
-            ))
-          : []}
-      </>
-    ));
-  }, [availableTimes]);
+  const handleDateChange = ({ e, values, setValues }) => {
+    setValues({ ...values, time: "" });
+    setBookingDate(new Date(e.target.value));
+  };
 
   const [smsEmailTouched, setSmsEmailTouched] = useState(false);
 
@@ -182,7 +171,6 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
     >
       {({ values, setAvailableTimes, availableTimes }) => (
         <Form className={defaultStyles.formContainerClass}>
-          <BookingFormEffects {...bookingProps} />
           <Field
             name="name"
             label="Full name:"
@@ -198,6 +186,7 @@ const BookingForm = ({ availableTimes, setAvailableTimes, onSubmit }) => {
             component={Input}
             required={true}
             min={dateToStr(new Date())}
+            callOnChanged={handleDateChange}
           />
           <Field
             name="time"

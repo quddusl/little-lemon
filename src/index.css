@@ -451,6 +451,7 @@ footer.container {
 .container.hero {
   background-color: #495E57;
   margin-bottom: 100px;
+  overflow: visible;
 }
 
 .container.home.hero>.content {

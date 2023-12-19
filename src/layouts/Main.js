@@ -1,16 +1,13 @@
-import React, { useReducer } from "react";
+import React, { useState, useReducer, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchAPI, submitAPI } from "./api";
 
-const today = ((d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()))(
-  new Date()
-);
-
-export const updateTimes = (availableTimes, date) => {
-  return fetchAPI(date);
+export const updateTimes = (availableTimes, newAvailableTimes) => {
+  return newAvailableTimes;
 };
 
-export const initializeTimes = () => fetchAPI(today);
+// set predictable initial state, suitable for testing
+export const initializeTimes = () => ["17:00", "18:00", "22:00"];
 
 export const Main = ({ children }) => {
   const [availableTimes, setAvailableTimes] = useReducer(
@@ -18,10 +15,21 @@ export const Main = ({ children }) => {
     initializeTimes()
   );
 
+  const setAvailableTimesWrapper = useCallback(async (date) => {
+    const newAvailableTimes = await fetchAPI(date);
+    setAvailableTimes(newAvailableTimes);
+  }, []);
+
+  const [bookingDate, setBookingDate] = useState();
+
+  useEffect(() => {
+    setAvailableTimesWrapper(bookingDate);
+  }, [bookingDate, setAvailableTimesWrapper]);
+
   const navigate = useNavigate();
 
-  const submitForm = (formData) => {
-    const success = submitAPI(formData);
+  const submitForm = async (formData) => {
+    const success = await submitAPI(formData);
     if (success) {
       const formProps = {
         values: formData,
@@ -44,7 +52,7 @@ export const Main = ({ children }) => {
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           availableTimes,
-          setAvailableTimes,
+          setBookingDate,
           submitForm,
         })
       )}

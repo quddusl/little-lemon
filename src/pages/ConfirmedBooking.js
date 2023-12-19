@@ -29,14 +29,15 @@ export const ConfirmedBooking = () => {
           {values.mobile ? `and SMS` : ``}.
         </p>
       ) : values.mobile ? (
-        `Reminders will be sent to you via SMS.`
+        <p>Reminders will be sent to you via SMS.</p>
       ) : null}
     </>
   ) : null;
 
   return (
-    <article className="main-article hero container">
-      <article className="booking-confirmed content">
+    <article className="hero container">
+      <article className="main-article booking-confirmed content">
+      <h1 className="sub-title primary-yellow">Booking Status</h1>
         {firstLine}
         {secondLine}
         {bookingDetails}

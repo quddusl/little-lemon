@@ -5,3 +5,5 @@ export const dateToStr = (d) =>
 
 export const addDate = (date, moreDays) =>
   new Date(new Date(date).setDate(date.getDate() + moreDays));
+
+export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

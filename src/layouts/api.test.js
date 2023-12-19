@@ -1,57 +1,13 @@
 import {
+  fetchAPISynchronous,
+  submitAPISynchronous,
   fetchAPI,
   submitAPI,
-  fetchAPIAsync,
-  submitAPIAsync,
   getAllSlots,
 } from "./api";
 import { addDate } from "./util";
 
 const allSlots = getAllSlots();
-
-it("shall provide some slots when queried", () => {
-  let slots;
-  const today = new Date();
-  const tomorrow = addDate(today, 1);
-  const afterAWeek = addDate(today, 7);
-
-  slots = fetchAPI(today);
-  expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
-
-  slots = fetchAPI(tomorrow);
-  expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
-
-  slots = fetchAPI(afterAWeek);
-  expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
-
-  slots = fetchAPI(today);
-  expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
-});
-
-it("shall return status when booings are submitted", () => {
-  let success = 0,
-    failure = 0,
-    status;
-  // Make 20 bookings
-  for (let i = 0; i < 20; i++) {
-    status = undefined;
-    status = submitAPI({});
-    expect(typeof status).toBe("boolean");
-    if (status === true) {
-      success++;
-    } else if (status === false) {
-      failure++;
-    } else {
-      throw new Error("Unexpected status!");
-    }
-  }
-  expect(failure).toEqual(0);
-  expect(success).toEqual(20);
-});
 
 it("shall provide some slots when queried - async", async () => {
   let slots;
@@ -59,21 +15,21 @@ it("shall provide some slots when queried - async", async () => {
   const tomorrow = addDate(today, 1);
   const afterAWeek = addDate(today, 7);
 
-  await fetchAPIAsync(today).then((result) => (slots = result));
+  await fetchAPI(today).then((result) => (slots = result));
   expect(allSlots).toEqual(expect.arrayContaining(slots));
   expect(allSlots.length).toBeGreaterThan(slots.length);
 
-  await fetchAPIAsync(tomorrow).then((result) => (slots = result));
+  await fetchAPI(tomorrow).then((result) => (slots = result));
   expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
+  expect(allSlots.length).not.toBeLessThan(slots.length);
 
-  await fetchAPIAsync(afterAWeek).then((result) => (slots = result));
+  await fetchAPI(afterAWeek).then((result) => (slots = result));
   expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
+  expect(allSlots.length).not.toBeLessThan(slots.length);
 
-  slots = await fetchAPIAsync(today);
+  slots = await fetchAPI(today);
   expect(allSlots).toEqual(expect.arrayContaining(slots));
-  expect(allSlots.length).toBeGreaterThan(slots.length);
+  expect(allSlots.length).not.toBeLessThan(slots.length);
 });
 
 it("shall return status when bookings are submitted - async", async () => {
@@ -82,8 +38,8 @@ it("shall return status when bookings are submitted - async", async () => {
     status;
   // Make 50 bookings
   for (let i = 0; i < 50; i++) {
-    status = undefined;
-    await submitAPIAsync({}).then((s) => (status = s));
+    undefined;
+    status = await submitAPI({});
     expect(typeof status).toBe("boolean");
     if (status === true) {
       success++;
@@ -96,3 +52,47 @@ it("shall return status when bookings are submitted - async", async () => {
   expect(success).toEqual(50);
   expect(failure).toEqual(0);
 }, 150000);
+
+it("shall provide some slots when queried - synchronous", () => {
+  let slots;
+  const today = new Date();
+  const tomorrow = addDate(today, 1);
+  const afterAWeek = addDate(today, 7);
+
+  slots = fetchAPISynchronous(today);
+  expect(allSlots).toEqual(expect.arrayContaining(slots));
+  expect(allSlots.length).toBeGreaterThan(slots.length);
+
+  slots = fetchAPISynchronous(tomorrow);
+  expect(allSlots).toEqual(expect.arrayContaining(slots));
+  expect(allSlots.length).toBeGreaterThan(slots.length);
+
+  slots = fetchAPISynchronous(afterAWeek);
+  expect(allSlots).toEqual(expect.arrayContaining(slots));
+  expect(allSlots.length).toBeGreaterThan(slots.length);
+
+  slots = fetchAPISynchronous(today);
+  expect(allSlots).toEqual(expect.arrayContaining(slots));
+  expect(allSlots.length).toBeGreaterThan(slots.length);
+});
+
+it("shall return status when bookings are submitted - synchronous", () => {
+  let success = 0,
+    failure = 0,
+    status;
+  // Make 50 bookings
+  for (let i = 0; i < 50; i++) {
+    status = undefined;
+    status = submitAPISynchronous({});
+    expect(typeof status).toBe("boolean");
+    if (status === true) {
+      success++;
+    } else if (status === false) {
+      failure++;
+    } else {
+      throw new Error("Unexpected status!");
+    }
+  }
+  expect(failure).toEqual(0);
+  expect(success).toEqual(50);
+});

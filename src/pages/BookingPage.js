@@ -1,10 +1,10 @@
 import BookingForm from "./BookingForm";
 export const BookingPage = ({
   availableTimes,
-  setAvailableTimes,
+  setBookingDate,
   submitForm,
 }) => {
-  const bookingProps = { availableTimes, setAvailableTimes };
+  const bookingProps = { availableTimes, setBookingDate };
   return (
     <article className="hero container">
       <article className="main-article booking content">
