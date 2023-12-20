@@ -170,10 +170,13 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
       }}
     >
       {({ values, setAvailableTimes, availableTimes }) => (
-        <Form className={defaultStyles.formContainerClass}>
+        <Form
+          className={defaultStyles.formContainerClass}
+          aria-label={"booking form"}
+        >
           <Field
             name="name"
-            label="Full name:"
+            label="Full name"
             placeholder="John Doe"
             component={Input}
             required={true}
@@ -181,7 +184,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           />
           <Field
             name="date"
-            label="Booking date:"
+            label="Booking date"
             type="date"
             component={Input}
             required={true}
@@ -190,7 +193,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           />
           <Field
             name="time"
-            label="Time:"
+            label="Time"
             type="select"
             placeholder="Select time"
             component={Input}
@@ -199,7 +202,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           />
           <Field
             name="numberOfGuests"
-            label="Number of guests:"
+            label="Number of guests"
             type="number"
             component={Input}
             min={minGuests}
@@ -208,7 +211,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           />
           <Field
             name="occasion"
-            label="Occasion:"
+            label="Occasion"
             type="select"
             placeholder="Select occasion"
             component={Input}
@@ -216,7 +219,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           />
           <Field
             name="seatingLocation"
-            label="Preferred seating location:"
+            label="Preferred seating location"
             type="select"
             placeholder="Select location"
             component={Input}
@@ -259,7 +262,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
               {values.emailConfirmation && (
                 <Field
                   name="email"
-                  label="Email:"
+                  label="Email"
                   placeholder="joe@example.com"
                   component={Input}
                 />
@@ -267,7 +270,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
               {values.smsConfirmation && (
                 <Field
                   name="mobile"
-                  label="Mobile number:"
+                  label="Mobile number"
                   placeholder="(555) 555-1234"
                   component={Input}
                 />
@@ -276,7 +279,7 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           )}
           <Field
             name="comments"
-            label="Any comments or messages: "
+            label="Any comments or messages"
             type="textarea"
             rows="3"
             cols="500"

@@ -37,28 +37,28 @@ const setup = (jsx) => {
 it("shall render the expected texts", () => {
   setup(bookingPageJsx);
 
-  const fullName = screen.getByText("Full name:");
+  const fullName = screen.getByText("Full name");
   expect(fullName).toBeInTheDocument();
 
-  const bookingDate = screen.getByText("Booking date:");
+  const bookingDate = screen.getByText("Booking date");
   expect(bookingDate).toBeInTheDocument();
 
-  const time = screen.getByText("Time:");
+  const time = screen.getByText("Time");
   expect(time).toBeInTheDocument();
 
-  const numberOfGuests = screen.getByText("Number of guests:");
+  const numberOfGuests = screen.getByText("Number of guests");
   expect(numberOfGuests).toBeInTheDocument();
 
-  const occasion = screen.getByText("Occasion:");
+  const occasion = screen.getByText("Occasion");
   expect(occasion).toBeInTheDocument();
 
-  const seatingLocation = screen.getByText("Preferred seating location:");
+  const seatingLocation = screen.getByText("Preferred seating location");
   expect(seatingLocation).toBeInTheDocument();
 
   confirmationRequired = screen.getByText("Confirmation required");
   expect(confirmationRequired).toBeInTheDocument();
 
-  const comments = screen.getByText("Any comments or messages:");
+  const comments = screen.getByText("Any comments or messages");
   expect(comments).toBeInTheDocument();
 });
 
@@ -78,11 +78,14 @@ it("shall be possible to submit the form", async () => {
   });
   handleSubmit.mockClear();
 
-  const fullName = screen.getByRole("textbox", { name: "Full name:" });
-  const bookingDate = screen.getByLabelText("Booking date:");
-  const bookingTime = screen.getByLabelText("Time:");
-  const numberOfGuests = screen.getByLabelText("Number of guests:");
-  const occasion = screen.getByLabelText("Occasion:");
+  // Avoid getByText queries, use getByRole and getByLabelText instead
+  const fullName = screen.getByRole("textbox", { name: "Full name" });
+  const bookingDate = screen.getByLabelText("Booking date");
+  const bookingTime = screen.getByRole("combobox", { name: "Time" });
+  const numberOfGuests = screen.getByRole("spinbutton", {
+    name: "Number of guests",
+  });
+  const occasion = screen.getByRole("combobox", { name: "Occasion" });
 
   const submitButton = screen.getByRole("button", "Make Your Reservation");
   expect(submitButton).toBeInTheDocument();
@@ -115,20 +118,22 @@ it("shall be possible to submit the form", async () => {
 it("shall have appropriate form validation attributes", () => {
   const { user } = setup(bookingPageJsx);
 
-  const fullName = screen.getByLabelText("Full name:");
+  const fullName = screen.getByRole("textbox", { name: "Full name" });
   expect(fullName).toHaveAttribute("required");
   expect(fullName).toHaveAttribute(
     "pattern",
     "/^[a-z]([-']?[a-z]+)*( [a-z]([-']?[a-z]+)*)+$/im"
   );
 
-  const bookingDate = screen.getByLabelText("Booking date:");
+  const bookingDate = screen.getByLabelText("Booking date");
   expect(bookingDate).toHaveAttribute("required");
 
-  const time = screen.getByLabelText("Time:");
+  const time = screen.getByRole("combobox", { name: "Time" });
   expect(time).toHaveAttribute("required");
 
-  const numberOfGuests = screen.getByLabelText("Number of guests:");
+  const numberOfGuests = screen.getByRole("spinbutton", {
+    name: "Number of guests",
+  });
   expect(numberOfGuests).toHaveAttribute("required");
   expect(numberOfGuests).toHaveAttribute("min", "1");
   expect(numberOfGuests).toHaveAttribute("max", "20");
@@ -141,7 +146,7 @@ it("shall perform client side form validation", async () => {
   // are properly provided
 
   // Full name
-  const fullName = screen.getByLabelText("Full name:");
+  const fullName = screen.getByRole("textbox", { name: "Full name" });
   await user.clear(fullName);
   await user.type(fullName, "Bruk Quddus");
   await user.tab();
@@ -155,20 +160,22 @@ it("shall perform client side form validation", async () => {
   const tomorrow_str = dateToStr(tomorrow);
 
   // Booking date
-  const bookingDate = screen.getByLabelText("Booking date:");
+  const bookingDate = screen.getByLabelText("Booking date");
   await user.clear(bookingDate);
   await waitFor(() => user.type(bookingDate, today_str));
   await user.tab();
   expect(bookingDate).not.toHaveAttribute("aria-invalid");
 
   // Time
-  const time = screen.getByLabelText("Time:");
+  const time = screen.getByRole("combobox", { name: "Time" });
   await waitFor(() => user.selectOptions(time, ["22:00"]));
   await user.tab();
   expect(time).not.toHaveAttribute("aria-invalid");
 
   // Number of guests
-  const numberOfGuests = screen.getByLabelText("Number of guests:");
+  const numberOfGuests = screen.getByRole("spinbutton", {
+    name: "Number of guests",
+  });
   await user.clear(numberOfGuests);
   await user.type(numberOfGuests, "1");
   await user.tab();

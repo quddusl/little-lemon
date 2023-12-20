@@ -62,7 +62,7 @@ it("(updateTimes()) shall update the list of time slots", async () => {
       </Main>
     </BrowserRouter>
   );
-  const dateEl = screen.getByLabelText("Booking date:");
+  const dateEl = screen.getByLabelText("Booking date");
 
   await user.clear(dateEl);
   await waitFor(() => user.type(dateEl, dateToStr(tomorrow)));
