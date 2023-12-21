@@ -35,9 +35,9 @@ export const ConfirmedBooking = () => {
   ) : null;
 
   return (
-    <article className="hero container">
-      <article className="main-article booking-confirmed content">
-      <h1 className="sub-title primary-yellow">Booking Status</h1>
+    <article className="hero booking-confirmed container">
+      <article className="main-article content">
+        <h1 className="sub-title primary-yellow">Booking Status</h1>
         {firstLine}
         {secondLine}
         {bookingDetails}

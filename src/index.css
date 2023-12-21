@@ -410,6 +410,10 @@ legend {
 }
 
 /* Footer */
+.page-footer {
+  background-color: #FBDABB;
+}
+
 .page-footer>div {
   grid-template-columns: 1fr 1fr 1.2fr 1fr;
 }
@@ -436,29 +440,34 @@ legend {
 }
 
 /* Common Settings */
-.container.cta-order>.content,
-.container>.testimonials,
-.container.history>.content,
-footer.container {
-  margin-top: 50px;
+.container>.content {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-.container>.content.under-construction>p {
+header.container>.content {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.container.under-construction>.content>p {
   text-align: justify;
 }
 
 /* CTA / Hero */
-.container.hero {
+.container.hero,
+.container.testimonials {
   background-color: #495E57;
-  margin-bottom: 100px;
+}
+
+.container.home {
+  margin-bottom: 60px;
   overflow: visible;
 }
 
 .container.home.hero>.content {
   grid-template-columns: 430px 430px;
   grid-template-rows: 340px;
-  column-gap: 0;
-  row-gap: 0;
   background-color: #495E57;
   border: 0;
   justify-content: space-between;
@@ -471,13 +480,12 @@ footer.container {
   grid-column: 1;
   grid-row: 1;
   padding-right: 30px;
-  margin-top: 20px;
   width: 65%;
 }
 
 .content.main-article {
   justify-items: start;
-  margin-top: 20px;
+  /* padding-top: 20px; */
   gap: 0;
 }
 
@@ -487,19 +495,11 @@ footer.container {
   height: 440px;
   justify-self: end;
   overflow: auto;
-  margin: 20px 0 -100px 0;
+  margin-bottom: -100px;
   object-fit: cover;
 }
 
-.container.cta-order>.content {
-  padding-bottom: 20px;
-}
-
-section.container.cta-order {
-  padding-bottom: 20px;
-}
-
-.content.testimonials>h1 {
+.container.testimonials>.content>h1 {
   margin-bottom: 30px;
 }
 
@@ -559,11 +559,11 @@ img.bicycle-icon {
 }
 
 /* Testimonials */
-.container>.content.testimonials {
+.container.testimonials>.content {
   grid-template-columns: 1fr;
 }
 
-.container>.content.testimonials>h1 {
+.container.testimonials>.content>h1 {
   text-align: center;
 }
 
@@ -607,8 +607,6 @@ img.bicycle-icon {
 .container.history>.content {
   justify-content: space-between;
   align-items: start;
-  padding-top: 20px;
-  padding-bottom: 20px;
   grid-template-columns: 3.5fr 0.5fr 4fr;
   row-gap: 10px;
 }
@@ -699,7 +697,11 @@ img.bicycle-icon {
   /* CTA / Hero */
   .container.home.hero>.content {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 380px;
+    grid-template-rows: auto 300px;
+  }
+
+  .container.home {
+    margin-bottom: 100px;
   }
 
   .cta-reserve {
@@ -748,9 +750,7 @@ img.bicycle-icon {
 @media only screen and (max-width: 480px) {
 
   /* Hero */
-  .container.home.hero>.content {
-    grid-template-rows: auto auto 0;
-  }
+  /* No change */
 
   /* Specials */
   .container.cta-order>.content>div.grid-stretched-row {

@@ -17,8 +17,8 @@ export const CustomersSay = () => {
     </article>
   ));
   return (
-    <section className="container">
-      <article className="content testimonials">
+    <section className="container testimonials">
+      <article className="content">
         <h1 className="sub-title">Testimonials</h1>
         <div className="review-cards">{reviewCards}</div>
       </article>
