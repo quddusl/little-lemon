@@ -87,7 +87,9 @@ it("shall be possible to submit the form", async () => {
   });
   const occasion = screen.getByRole("combobox", { name: "Occasion" });
 
-  const submitButton = screen.getByRole("button", "Make Your Reservation");
+  const submitButton = screen.getByRole("button", {
+    name: "Make Your Reservation",
+  });
   expect(submitButton).toBeInTheDocument();
   expect(submitButton).toHaveAttribute("disabled");
 
@@ -182,7 +184,9 @@ it("shall perform client side form validation", async () => {
   expect(numberOfGuests).not.toHaveAttribute("aria-invalid");
 
   // Submit button
-  const submitButton = screen.getByRole("button", "Make Your Reservation");
+  const submitButton = screen.getByRole("button", {
+    name: "Make Your Reservation",
+  });
 
   // Form shall be valid by this time
   expect(screen.queryByText("Required")).toBeNull();
