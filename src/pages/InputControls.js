@@ -178,7 +178,8 @@ export const Button = ({
     disableIfInvalid && !enableNotDirty && !modifiedAndValid
       ? { disabled: true }
       : null;
-  const buttonClass = modifiedAndValid ? submitClass : submitInvalidClass;
+  const buttonClass =
+    modifiedAndValid || !disableIfInvalid ? submitClass : submitInvalidClass;
   return (
     <button
       id={field.name}

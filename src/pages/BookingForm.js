@@ -114,7 +114,12 @@ const bookingSchema = object().shape(
   ]
 );
 
-const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
+const BookingForm = ({
+  availableTimes,
+  setBookingDate,
+  onSubmit,
+  onCancel,
+}) => {
   const timeOptions = availableTimes
     ? availableTimes.map((time) => (
         <option value={time} key={time}>
@@ -287,6 +292,14 @@ const BookingForm = ({ availableTimes, setBookingDate, onSubmit }) => {
           />
           <Field name="submit" component={Button} type="submit">
             Make Your Reservation
+          </Field>
+          <Field
+            name="cancel"
+            component={Button}
+            onClick={onCancel}
+            disableIfInvalid={false}
+          >
+            Cancel
           </Field>
           <DebugFormik debug={false} />
         </Form>
